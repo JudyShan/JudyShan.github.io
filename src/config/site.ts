@@ -24,24 +24,23 @@ export const site = {
   // ─── Identity ──────────────────────────────────────────────────────────────
 
   /** Site title. Shown in the browser tab and navbar. */
-  title: 'Albert Einstein',
+  title: 'Jiali Shan',
 
   /** Site description. Used in meta tags. */
   description: 'A simple, clean, and responsive Astro template for academics. Powered by as-folio.',
 
   /**
    * Full URL of your deployed site (no trailing slash).
-   * Automatically derived from astro.config.mjs `site` option (set ASTRO_SITE env var in CI).
-   * Falls back to 'https://example.github.io' for local development.
+   * Keep this in sync with astro.config.mjs `site` option.
    */
-  url: (import.meta.env.SITE ?? 'https://example.github.io').replace(/\/$/, ''),
+  url: 'https://judyshan.github.io' as string,
 
   /**
    * Base path. Leave '' for user/org pages (username.github.io).
    * Set to '/repo-name' for project pages (username.github.io/repo-name).
-   * Automatically derived from astro.config.mjs `base` option (set ASTRO_BASE env var in CI).
+   * Keep this in sync with astro.config.mjs `base` option.
    */
-  base: import.meta.env.BASE_URL === '/' ? '' : (import.meta.env.BASE_URL ?? '').replace(/\/$/, ''),
+  base: '/MyWebsite',
 
   /** Language code for the site. */
   lang: 'en',
@@ -50,13 +49,13 @@ export const site = {
 
   author: {
     /** Full name shown in navbar, about page heading, and footer. */
-    name: 'Albert Einstein',
+    name: 'Jiali Shan',
 
     /** Short email address (used in social links). */
-    email: 'einstein@example.com',
+    email: 'jlshan25@m.fudan.edu.cn',
 
     /** Path to profile photo. Place image in public/assets/img/. */
-    avatar: '/assets/img/prof_pic.jpg',
+    avatar: '/assets/img/avatar.jpg',
 
     /**
      * Subtitle below your name on the about page.
@@ -85,7 +84,7 @@ export const site = {
   //   bluesky_handle, medium_username, cv_pdf, rss_icon
 
   socials: {
-    email: 'einstein@example.com',
+    email: 'jlshan25@m.fudan.edu.cn',
     x_username: undefined as string | undefined,
     linkedin_username: undefined as string | undefined,
     github_username: undefined as string | undefined,
