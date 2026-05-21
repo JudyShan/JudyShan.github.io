@@ -72,9 +72,11 @@ export const site = {
      * Address block below profile photo.
      * HTML is supported.
      */
-    moreInfo: `<p>School of Mathematics</p>
-      <p>Computational Mathematics</p>
-      <p>Fudan University, Shanghai, China</p>`,
+    
+    /** moreInfo: `<p>School of Mathematics</p>
+      * <p>Computational Mathematics</p>
+      * <p>Fudan University, Shanghai, China</p>`,
+      */
   },
 
   // ─── Social links ──────────────────────────────────────────────────────────
@@ -89,13 +91,13 @@ export const site = {
     email: 'jlshan25@m.fudan.edu.cn',
     x_username: undefined as string | undefined,
     linkedin_username: undefined as string | undefined,
-    github_username: undefined as string | undefined,
+    github_username: 'JudyShan',
     gitlab_username: undefined as string | undefined,
     /** Google Scholar user ID — the part after user= in your Scholar URL */
-    scholar_userid: 'qc6CJjYAAAAJ',
-    orcid_id: undefined as string | undefined,
+    scholar_userid: '8lLGVpAAAAAJ&hl=zh-CN',
+    orcid_id: '0009-0000-6514-9349',
     /** Inspire HEP author ID */
-    inspire_id: '1010907',
+    inspire_id: undefined as string | undefined,
     researchgate_username: undefined as string | undefined,
     arxiv_id: undefined as string | undefined,
     youtube_id: undefined as string | undefined,
@@ -127,8 +129,8 @@ export const site = {
       { label: 'about', href: '/' },
       { label: 'blog', href: '/blog/' },
       { label: 'publications', href: '/publications/' },
-      { label: 'projects', href: '/projects/' },
-      { label: 'repositories', href: '/repositories/' },
+      // { label: 'projects', href: '/projects/' },
+      // { label: 'repositories', href: '/repositories/' },
       { label: 'cv', href: '/cv/' },
       {
         label: 'more',
