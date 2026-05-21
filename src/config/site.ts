@@ -33,7 +33,7 @@ export const site = {
    * Full URL of your deployed site (no trailing slash).
    * Keep this in sync with astro.config.mjs `site` option.
    */
-  url: 'https://judyshan.github.io' as string,
+  url: 'https://judyshan.github.io',
 
   /**
    * Base path. Leave '' for user/org pages (username.github.io).
@@ -55,24 +55,26 @@ export const site = {
     email: 'jlshan25@m.fudan.edu.cn',
 
     /** Path to profile photo. Place image in public/assets/img/. */
-    avatar: '/assets/img/avatar.jpg',
+    avatar: '/assets/img/myphoto.jpg',
 
     /**
      * Subtitle below your name on the about page.
      * HTML is supported.
      */
-    subtitle: `Theoretical Physicist
-      &nbsp;·&nbsp;
-      <a href="https://en.wikipedia.org/wiki/Institute_for_Advanced_Study">Institute for Advanced Study</a>,
-      Princeton`,
+    subtitle: `Scientific Computing
+      &nbsp;·&nbsp; Randomized Numerical Linear Algebra`,
+    /**
+     *   <a href="https://en.wikipedia.org/wiki/Institute_for_Advanced_Study">Institute for Advanced Study</a>,
+     *   Princeton`,
+     */
 
     /**
      * Address block below profile photo.
      * HTML is supported.
      */
-    moreInfo: `<p>Institute for Advanced Study</p>
-      <p>Einstein Drive</p>
-      <p>Princeton, NJ 08540</p>`,
+    moreInfo: `<p>School of Mathematics</p>
+      <p>Computational Mathematics</p>
+      <p>Fudan University, Shanghai, China</p>`,
   },
 
   // ─── Social links ──────────────────────────────────────────────────────────
