@@ -55,7 +55,7 @@ export const site = {
     email: 'jlshan25@m.fudan.edu.cn',
 
     /** Path to profile photo. Place image in public/assets/img/. */
-    avatar: '/assets/img/myphoto.jpg',
+    avatar: '/assets/img/myphoto-profile.jpg',
 
     /**
      * Subtitle below your name on the about page.

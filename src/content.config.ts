@@ -210,6 +210,8 @@ const miscellany = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    /** Optional human-readable date range, e.g. Aug-Dec 2025. */
+    dateLabel: z.string().optional(),
     description: z.string().optional(),
     /** Short category label, e.g. visit, summer school, hobby, service. */
     category: z.string().optional(),

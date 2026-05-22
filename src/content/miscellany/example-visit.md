@@ -1,6 +1,7 @@
 ---
 title: 'Exchange to UC Berkeley'
-date: 2025-08 to 2025-12
+date: 2024-12-05
+dateLabel: Aug-Dec 2024
 description: 'Photo taken at the last class of Ma221 2024Fall'
 category: visit
 location: 'University of California, Berkeley'

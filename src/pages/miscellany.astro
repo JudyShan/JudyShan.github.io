@@ -1,5 +1,6 @@
 ---
 import Page from '@layouts/Page.astro';
+import { withBase } from '@utils/base';
 import { getCollection, render } from 'astro:content';
 
 const items = (await getCollection('miscellany'))
@@ -48,7 +49,7 @@ const formatDate = (date: Date) =>
                     {item.data.image && (
                       <figure class="entry-media">
                         <img
-                          src={item.data.image}
+                          src={withBase(item.data.image)}
                           alt={item.data.imageAlt ?? item.data.title}
                           loading="lazy"
                         />
@@ -57,7 +58,9 @@ const formatDate = (date: Date) =>
 
                     <div class="entry-body">
                       <div class="entry-meta">
-                        <time datetime={item.data.date.toISOString()}>{formatDate(item.data.date)}</time>
+                        <time datetime={item.data.date.toISOString()}>
+                          {item.data.dateLabel ?? formatDate(item.data.date)}
+                        </time>
                         {item.data.category && <span>{item.data.category}</span>}
                         {item.data.location && <span>{item.data.location}</span>}
                       </div>
@@ -72,7 +75,7 @@ const formatDate = (date: Date) =>
                       {item.data.links.length > 0 && (
                         <div class="entry-links">
                           {item.data.links.map((link) => (
-                            <a href={link.url} target="_blank" rel="noopener noreferrer">
+                            <a href={withBase(link.url)} target="_blank" rel="noopener noreferrer">
                               {link.label}
                             </a>
                           ))}
