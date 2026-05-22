@@ -132,14 +132,15 @@ export const site = {
       // { label: 'projects', href: '/projects/' },
       // { label: 'repositories', href: '/repositories/' },
       { label: 'cv', href: '/cv/' },
-      {
-        label: 'more',
-        children: [
-          { label: 'teaching', href: '/teaching/' },
-          { label: 'people', href: '/people/' },
-          { label: 'books', href: '/books/' },
-        ],
-      },
+      { label: 'miscellany', href: '/miscellany/' },
+      // {
+      //   label: 'more',
+      //   children: [
+      //     { label: 'teaching', href: '/teaching/' },
+      //     { label: 'people', href: '/people/' },
+      //     { label: 'books', href: '/books/' },
+      //   ],
+      // },
     ] as NavItem[],
   },
 

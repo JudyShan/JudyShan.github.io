@@ -117,8 +117,8 @@ export async function GET(_ctx: APIContext): Promise<Response> {
       priority: 0.6,
     },
     {
-      url: loc('/books/'),
-      lastmod: gitLastmod('src/pages/books.astro'),
+      url: loc('/miscellany/'),
+      lastmod: gitLastmod('src/pages/miscellany.astro'),
       changefreq: 'monthly',
       priority: 0.5,
     },

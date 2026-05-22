@@ -203,4 +203,37 @@ const books = defineCollection({
   }),
 });
 
-export const collections = { posts, projects, people, teaching, announcements, books };
+// ─── Miscellany ────────────────────────────────────────────────────────────
+
+const miscellany = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/miscellany' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    description: z.string().optional(),
+    /** Short category label, e.g. visit, summer school, hobby, service. */
+    category: z.string().optional(),
+    /** Location or host institution. */
+    location: z.string().optional(),
+    /** Photo path in public/assets/img/. */
+    image: z.string().optional(),
+    /** Alt text for the image. */
+    imageAlt: z.string().optional(),
+    /** External links or local assets related to this item. */
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+        }),
+      )
+      .optional()
+      .default([]),
+    /** Sort order within the same year. */
+    importance: z.number().optional().default(999),
+    /** Keep the file but hide it from the page. */
+    hidden: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { posts, projects, people, teaching, announcements, books, miscellany };

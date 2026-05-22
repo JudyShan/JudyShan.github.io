@@ -15,6 +15,7 @@ This guide walks through every aspect of personalizing your as-folio site.
 7. [Projects](#7-projects)
 8. [CV](#8-cv)
 9. [Books](#9-books)
+9a. [Miscellany](#9a-miscellany)
 10. [Teaching](#10-teaching)
 11. [People / Lab members](#11-people--lab-members)
 12. [Repositories page](#12-repositories-page)
@@ -427,6 +428,39 @@ Optional personal notes about the book.
 ```
 
 Books are grouped by year read (most recent first). Books without dates go in a "To Read" section.
+
+---
+
+## 9a. Miscellany
+
+The top navigation can point to `/miscellany/` for visits, summer schools, hobbies, short notes, and photo-based memories.
+
+Create `.md` or `.mdx` files in `src/content/miscellany/`:
+
+```yaml
+---
+title: 'Summer School at Example Institute'
+date: 2026-07-15
+description: 'A one-sentence summary shown below the title.'
+category: summer school
+location: 'Example Institute'
+image: /assets/img/miscellany/summer-school.jpg
+imageAlt: 'Group photo at the summer school'
+links:
+  - label: Program
+    url: https://example.edu/program
+  - label: Slides
+    url: /assets/pdf/my-talk.pdf
+importance: 1
+hidden: false
+---
+
+Write a short note here. Markdown links and paragraphs are supported.
+```
+
+Put images in `public/assets/img/miscellany/` and link to them with `/assets/img/miscellany/file.jpg`.
+
+Use `hidden: true` to keep an item as a draft/template without showing it on the page.
 
 ---
 
