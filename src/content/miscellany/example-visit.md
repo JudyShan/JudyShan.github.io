@@ -1,17 +1,14 @@
 ---
-title: 'Example Visit'
-date: 2026-01-07
-description: 'A short note about an academic visit, summer school, workshop, or personal milestone.'
+title: 'Exchange to UC Berkeley'
+date: 2025-08 to 2025-12
+description: 'Photo taken at the last class of Ma221 2024Fall'
 category: visit
-location: 'Host University'
-image: /assets/img/miscellany/example-visit.jpg
-imageAlt: 'Group photo from the visit'
+location: 'University of California, Berkeley'
+image: /assets/img/miscellany/MEwithProfDemmel.jpeg
+imageAlt: 'Happy me with Prof. Demmel'
 links:
-  - label: Slides
-    url: /assets/pdf/example-talk.pdf
-importance: 1
+  - label: Course homepage
+    url: https://people.eecs.berkeley.edu/~demmel/ma221_Fall24/
 ---
 
-Write a few sentences here. You can mention the host, the topic, collaborators, or what you learned.
-
-Because this example has `hidden: true`, it is only a template and will not appear on the webpage.
+During the course Ma221 by dear Prof. Demmel, I started my first project.

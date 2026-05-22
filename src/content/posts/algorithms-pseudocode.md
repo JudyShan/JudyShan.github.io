@@ -1,6 +1,7 @@
 ---
 title: Writing Algorithms in Pseudocode
 date: 2025-05-05
+draft: true
 description: Render beautiful pseudocode with LaTeX-style typesetting using pseudocode.js — no images, no screenshots.
 tags: [algorithms, computer-science, formatting]
 categories: [demo]

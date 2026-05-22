@@ -1,6 +1,7 @@
 ---
 title: Interactive Scientific Plots with Plotly
 date: 2025-05-01
+draft: true
 description: 3D surface plots, contour maps, and animated charts with Plotly.js — hover, pan, zoom included.
 tags: [charts, visualization, plotly, science]
 categories: [demo]

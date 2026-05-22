@@ -1,6 +1,7 @@
 ---
 title: Interactive Charts with Chart.js
 date: 2025-04-15
+draft: true
 description: Line charts, bar charts, radar charts, and doughnut charts driven by Chart.js — all from a single frontmatter flag.
 tags: [charts, visualization, javascript]
 categories: [demo]

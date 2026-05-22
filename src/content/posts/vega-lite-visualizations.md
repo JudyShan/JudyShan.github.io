@@ -1,6 +1,7 @@
 ---
 title: Declarative Visualizations with Vega-Lite
 date: 2025-04-25
+draft: true
 description: Point plots, histograms, and small multiples using Vega-Lite's concise JSON grammar.
 tags: [charts, visualization, vega]
 categories: [demo]

@@ -1,6 +1,7 @@
 ---
 title: LaTeX TikZ Diagrams in the Browser
 date: 2025-05-10
+draft: true
 description: Render Feynman diagrams, geometric proofs, vector fields, and circuit schematics — directly from TikZ code.
 tags: [diagrams, latex, physics]
 categories: [demo]

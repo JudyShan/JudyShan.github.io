@@ -1,6 +1,7 @@
 ---
 title: 'This Post is Hidden'
 date: 2025-06-02
+draft: true
 hidden: true
 description: Hidden posts are excluded from listings and RSS but are accessible via direct URL.
 tags: [meta]

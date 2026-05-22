@@ -1,6 +1,7 @@
 ---
 title: Data Visualization with Apache ECharts
 date: 2025-04-20
+draft: true
 description: Heatmaps, treemaps, scatter plots, and stacked bars with ECharts — a powerful alternative to Chart.js.
 tags: [charts, visualization, echarts]
 categories: [demo]

@@ -1,6 +1,7 @@
 ---
 title: Full-Screen Photo Gallery with PhotoSwipe
 date: 2025-05-30
+draft: true
 description: Create tap-to-expand full-screen lightbox galleries with captions — ideal for image-heavy posts and portfolios.
 tags: [images, gallery, visualization]
 categories: [demo]

@@ -1,6 +1,7 @@
 ---
 title: Embedding Interactive Maps with Leaflet
 date: 2025-05-15
+draft: true
 description: OpenStreetMap-powered maps with markers, pop-ups, and polygons — all from a single frontmatter flag.
 tags: [maps, visualization, leaflet]
 categories: [demo]

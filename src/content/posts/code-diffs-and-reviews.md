@@ -1,6 +1,7 @@
 ---
 title: Showing Code Changes with Diff2Html
 date: 2025-05-25
+draft: true
 description: Render beautiful side-by-side or unified code diffs in posts — ideal for tutorials, changelogs, and code reviews.
 tags: [code, formatting, diff]
 categories: [demo]
