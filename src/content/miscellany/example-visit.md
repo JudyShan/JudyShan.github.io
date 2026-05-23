@@ -5,7 +5,7 @@ dateLabel: Aug-Dec 2024
 description: 'Photo taken at the last class of Ma221 2024Fall'
 category: visit
 location: 'University of California, Berkeley'
-image: /assets/img/miscellany/MEwithProfDemmel.jpeg
+image: /assets/img/miscellany/MEwithProfDemmel.jpg
 imageAlt: 'Happy me with Prof. Demmel'
 links:
   - label: Course homepage
