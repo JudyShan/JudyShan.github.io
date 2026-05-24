@@ -71,11 +71,9 @@ const formatDate = (date: Date) =>
                       </div>
 
                       <h3>{item.data.title}</h3>
-                      {
-                        item.data.description && (
-                          <p class="entry-description">{item.data.description}</p>
-                        )
-                      }
+                      {item.data.description && (
+                        <p class="entry-description">{item.data.description}</p>
+                      )}
 
                       <div class="entry-content">
                         <Content />
