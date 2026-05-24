@@ -71,12 +71,9 @@ export const site = {
     /**
      * Address block below profile photo.
      * HTML is supported.
+     * Leave empty string to hide.
      */
-    
-    /** moreInfo: `<p>School of Mathematics</p>
-      * <p>Computational Mathematics</p>
-      * <p>Fudan University, Shanghai, China</p>`,
-      */
+    moreInfo: '',
   },
 
   // ─── Social links ──────────────────────────────────────────────────────────
