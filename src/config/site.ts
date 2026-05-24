@@ -103,7 +103,7 @@ export const site = {
     bluesky_handle: undefined as string | undefined,
     medium_username: undefined as string | undefined,
     /** Path to CV PDF in public/assets/pdf/ */
-    cv_pdf: '/assets/pdf/example_pdf.pdf',
+    cv_pdf: '/assets/pdf/Jiali_Shan_CV.pdf',
     /** Show RSS icon in social links */
     rss_icon: true,
   },
@@ -128,7 +128,7 @@ export const site = {
       { label: 'publications', href: '/publications/' },
       // { label: 'projects', href: '/projects/' },
       // { label: 'repositories', href: '/repositories/' },
-      { label: 'cv', href: '/cv/' },
+      // { label: 'cv', href: '/cv/' },
       { label: 'miscellany', href: '/miscellany/' },
       // {
       //   label: 'more',
@@ -173,7 +173,7 @@ export const site = {
      */
     format: 'rendercv' as 'rendercv' | 'jsonresume',
     /** Path to CV PDF for the download button in public/assets/pdf/. */
-    pdfPath: '/assets/pdf/example_pdf.pdf',
+    pdfPath: '/assets/pdf/Jiali_Shan_CV.pdf',
   },
 
   // ─── Blog ──────────────────────────────────────────────────────────────────

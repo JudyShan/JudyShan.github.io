@@ -1,9 +1,11 @@
 # Build output
 dist/
 .astro/
+src/data/rendercv_output/
 
 # Dependencies
 node_modules/
+.venv/
 .yarn/cache/
 .yarn/unplugged/
 .yarn/build-state.yml

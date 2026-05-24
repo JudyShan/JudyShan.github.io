@@ -52,6 +52,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "cv:setup": "python3 -m venv .venv && ./.venv/bin/python -m pip install \"rendercv[full]\"",
+    "cv:pdf": "./.venv/bin/python -m rendercv render src/data/cv.yml --pdf-path ../../public/assets/pdf/Jiali_Shan_CV.pdf --dont-generate-markdown --dont-generate-html --dont-generate-png",
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "lint:ci": "eslint . --quiet",
