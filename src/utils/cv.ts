@@ -23,12 +23,17 @@ export interface RenderCVEntry {
   location?: string;
   journal?: string;
   publisher?: string;
+  summary?: string;
   url?: string;
   highlights?: string[];
   name?: string;
   issuer?: string;
   label?: string;
   details?: string;
+  fund?: string;
+  topic?: string;
+  duration?: string;
+  grant?: string;
 }
 
 export interface RenderCV {

@@ -21,6 +21,8 @@ const rc = renderCV?.cv ?? null;
 const education = (rc?.sections?.education ?? []) as RenderCVEntry[];
 const experience = (rc?.sections?.experience ?? []) as RenderCVEntry[];
 const rcPublications = (rc?.sections?.publications ?? []) as RenderCVEntry[];
+const talks = (rc?.sections?.talks ?? []) as RenderCVEntry[];
+const funding = (rc?.sections?.funding ?? []) as RenderCVEntry[];
 const awards = (rc?.sections?.awards ?? []) as RenderCVEntry[];
 const skills = (rc?.sections?.skills ?? []) as RenderCVEntry[];
 const interests = (rc?.sections?.interests ?? []) as RenderCVEntry[];
@@ -38,6 +40,8 @@ if (format === 'rendercv' && rc) {
   if (education.length > 0) tocItems.push({ label: 'Education', href: '#education' });
   if (experience.length > 0) tocItems.push({ label: 'Experience', href: '#experience' });
   if (rcPublications.length > 0) tocItems.push({ label: 'Publications', href: '#publications' });
+  if (talks.length > 0) tocItems.push({ label: 'Talks', href: '#talks' });
+  if (funding.length > 0) tocItems.push({ label: 'Project Support', href: '#funding' });
   if (awards.length > 0) tocItems.push({ label: 'Awards', href: '#awards' });
   if (skills.length > 0) tocItems.push({ label: 'Skills', href: '#skills' });
   if (interests.length > 0) tocItems.push({ label: 'Interests', href: '#interests' });
@@ -51,6 +55,8 @@ if (format === 'rendercv' && rc) {
   if (jr.languages?.length) tocItems.push({ label: 'Languages', href: '#languages' });
   if (jr.interests?.length) tocItems.push({ label: 'Interests', href: '#interests' });
 }
+
+const cvUrl = (url?: string) => (url?.startsWith('/') ? withBase(url) : url);
 ---
 
 <Page title="CV" description={`Curriculum vitae of ${site.author.name}`}>
@@ -187,6 +193,37 @@ if (format === 'rendercv' && rc) {
                         subtitle={[e.authors?.join(', '), e.journal].filter(Boolean).join(' — ')}
                         dates={formatCVDate(e.date)}
                         url={e.doi ? `https://doi.org/${e.doi}` : e.url}
+                      />
+                    ))}
+                  </ul>
+                </CVSection>
+              )}
+
+              {talks.length > 0 && (
+                <CVSection title="Talks" id="talks">
+                  <ul class="card-text font-weight-light list-group list-group-flush">
+                    {talks.map((e) => (
+                      <CVEntry
+                        title={e.name ?? e.title ?? ''}
+                        subtitle={e.publisher ?? e.issuer}
+                        dates={formatCVDate(e.date)}
+                        url={cvUrl(e.url)}
+                        highlights={e.highlights}
+                      />
+                    ))}
+                  </ul>
+                </CVSection>
+              )}
+
+              {funding.length > 0 && (
+                <CVSection title="Project Support" id="funding">
+                  <ul class="card-text font-weight-light list-group list-group-flush">
+                    {funding.map((e) => (
+                      <CVEntry
+                        title={e.fund ?? e.name ?? ''}
+                        subtitle={[e.topic, e.grant].filter(Boolean).join(' — ')}
+                        dates={e.duration}
+                        highlights={e.highlights}
                       />
                     ))}
                   </ul>

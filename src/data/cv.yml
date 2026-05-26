@@ -1,13 +1,17 @@
 # RenderCV YAML format — https://docs.rendercv.com/
 # Used by the CV page when site.cv.format is 'rendercv'.
 
+design:
+  theme: classic
+  sections:
+    show_time_spans_in: []
+
 cv:
   name: Jiali Shan
   location: Shanghai, China
   email: jlshan25@m.fudan.edu.cn
   # phone: tel:+86-000-0000-0000
   website: https://judyshan.github.io/MyWebsite
-  # summary: A German-born theoretical physicist widely regarded as one of the greatest scientists of all time. Best known for developing the theory of relativity, the most important pillar along with quantum mechanics of modern physics.
   social_networks:
     - network: GitHub
       username: JudyShan
@@ -16,45 +20,45 @@ cv:
     education:
       - institution: Fudan University
         area: Mathematics and Applied Mathematics
-        degree: Bachelor of Science
+        degree: B.S.
         start_date: 2021
         end_date: 2025
 
-    # experience:
-    #   - company: Institute for Advanced Study
-    #     position: Professor
-    #     location: Princeton, NJ
-    #     start_date: 1933
-    #     end_date: present
-    #     highlights:
-    #       - Developed unified field theory research program
-    #       - Mentored generations of physicists and mathematicians
-    #       - Contributed to foundations of quantum mechanics debates
+    experience:
+      - company: University of California, Berkeley
+        position: Visiting scholar
+        location: Berkeley, CA, USA
+        start_date: 2024-08
+        end_date: 2024-12
 
-    #   - company: University of Berlin
-    #     position: Professor and Director
-    #     location: Berlin, Germany
-    #     start_date: 1914
-    #     end_date: 1933
-    #     highlights:
-    #       - Developed the general theory of relativity (1915)
-    #       - Predicted gravitational waves and black holes
-    #       - Awarded Nobel Prize in Physics (1921)
+    talks:
+      - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
+        summary: 'Slides: [PDF](https://judyshan.github.io/MyWebsite/assets/pdf/talk_mTLS_Backward_Analysis.pdf)'
+        highlights:
+          - the 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
+          - the 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
 
-    #   - company: University of Zurich
-    #     position: Associate Professor
-    #     location: Zurich, Switzerland
-    #     start_date: 1909
-    #     end_date: 1911
+    funding:
+      - name: National Natural Science Foundation of China (NSFC)
+        highlights:
+          - 'Category: Youth Student Basic Research Project'
+          - 'Grant: 123B1008'
+          - 'duration: 2023-2025'
+          - 'topic: Randomized Algorithms for Toeplitz Total Least Squares Problems'
 
-    #   - company: Swiss Patent Office
-    #     position: Technical Expert (Third Class)
-    #     location: Bern, Switzerland
-    #     start_date: 1902
-    #     end_date: 1909
-    #     highlights:
-    #       - Evaluated patent applications while conducting independent research
-    #       - Published four landmark papers in 1905 (Annus Mirabilis)
+    awards:
+      - name: 2025 ICCM Undergraduate Paper Award
+        date: '2026-01'
+        issuer: International Congress of Chinese Mathematicians (ICCM)
+        # highlights:
+        #   - 'For services to theoretical physics, and especially for his discovery of the law of the photoelectric effect'
+
+    skills:
+      - label: Coding
+        details: Matlab, Python, C
+      - label: Languages
+        details: Mandarin Chinese (native), English (fluent), Japanese (basic)
+    
 
     publications:
       - title: 'Optimal backward error of a total least squares and its randomized algorithms'
@@ -65,6 +69,13 @@ cv:
         date: 2025-09
         journal: SIAM Journal on Matrix Analysis and Applications
 
+      - title: 'Efficient estimate for the optimal backward error of the multidimensional total least squares'
+        authors:
+          - Jiali Shan
+          - Yimin Wei
+        date: 2026
+        journal: SIAM Journal on Matrix Analysis and Applications, to appear
+
       - title: 'Neural networks for total least squares solution of the time-varying linear systems'
         authors:
           - Xuezhong Wang
@@ -74,19 +85,3 @@ cv:
         date: 2025-09
         journal: Computational and Applied Mathematics
 
-    awards:
-      - name: 2025 ICCM Undergraduate Paper Award
-        date: '2026-01'
-        issuer: International Congress of Chinese Mathematicians (ICCM)
-        # highlights:
-        #   - 'For services to theoretical physics, and especially for his discovery of the law of the photoelectric effect'
-
-      - name: Optics-Valley Scholar (Fudan-OPTV of China Scholarship)
-        date: '2024-05'
-        issuer: Fudan University
-
-    skills:
-      - label: Coding
-        details: Matlab, Python, C
-      - label: Languages
-        details: Mandarin Chinese (native), English (fluent), Japanese (basic)
