@@ -227,7 +227,7 @@ const personJsonLd = isHome ? JSON.stringify({
     <!-- ⌘K Search (ninja-keys + Pagefind) — persisted across View Transitions -->
     {site.features.search && <SearchTrigger transition:persist />}
 
-    <main id="main-content" class="flex-1" data-pagefind-body>
+    <main id="main-content" class="flex-1" data-pagefind-body={noindex ? undefined : true}>
       <slot />
     </main>
 
