@@ -129,7 +129,7 @@ export const site = {
       // { label: 'projects', href: '/projects/' },
       // { label: 'repositories', href: '/repositories/' },
       // { label: 'cv', href: '/cv/' },
-      // { label: 'miscellany', href: '/miscellany/' },
+      { label: 'miscellany', href: '/miscellany/' },
       // {
       //   label: 'more',
       //   children: [

@@ -33,7 +33,7 @@ cv:
 
     talks:
       - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
-        summary: 'Slides: [PDF](https://judyshan.github.io/MyWebsite/assets/pdf/talk_mTLS_Backward_Analysis.pdf)'
+        # summary: 'Slides: [PDF](https://judyshan.github.io/MyWebsite/assets/pdf/talk_mTLS_Backward_Analysis.pdf)'
         highlights:
           - the 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
           - the 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
