@@ -180,15 +180,15 @@ export const site = {
 
   blog: {
     /** Name shown in the blog page heading. */
-    name: 'as-folio',
-    description: 'A simple, clean, and responsive Astro template for academics.',
+    name: 'Randomized techniques / Total least squares / Null-space',
+    description: 'To make TLS solvers fast and stable, NS algorithms accurate. Improve traditional diagrams and change the world.',
     /** Number of posts per page. */
     postsPerPage: 5,
     /**
      * Tags shown as badges on the blog listing page header.
      * Users can click them to filter posts by tag.
      */
-    displayTags: ['formatting', 'images', 'links', 'math', 'code', 'blockquotes'],
+    displayTags: ['RandNLA', 'Total least squares', 'Null-space problems', 'Backward error', 'Stability'] as string[],
     /** Categories shown as badges on the blog listing page header. */
     displayCategories: [] as string[],
     /**

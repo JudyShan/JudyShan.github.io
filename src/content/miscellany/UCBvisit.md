@@ -1,8 +1,8 @@
 ---
-title: 'Exchange to UC Berkeley'
+title: 'Journey at UC Berkeley'
 date: 2024-12-05
 dateLabel: Aug-Dec 2024
-description: 'Photo taken at the last class of Ma221 2024Fall'
+description: 'Photo taken at the last class of Ma221 (2024/12/05)'
 category: visit
 location: 'University of California, Berkeley'
 image: /assets/img/miscellany/MEwithProfDemmel.jpg
@@ -12,4 +12,4 @@ links:
     url: https://people.eecs.berkeley.edu/~demmel/ma221_Fall24/
 ---
 
-During the course Ma221 by dear Prof. Demmel, I started my first project.
+During the course by dear Prof. Demmel, I started my first project.
