@@ -54,8 +54,9 @@ cv:
         authors:
           - Jiali Shan
           - Yimin Wei
+        doi: 10.1137/25M1788312
         date: 2026
-        journal: SIAM Journal on Matrix Analysis and Applications, to appear
+        journal: SIAM Journal on Matrix Analysis and Applications, 47(2), 467--672
 
       - title: 'Optimal backward error of a total least squares and its randomized algorithms'
         authors:
@@ -72,7 +73,7 @@ cv:
           - Yimin Wei
         doi: 10.1007/s40314-024-03070-1
         date: 2025
-        journal: Computational and Applied Mathematics, 44, Article 106
+        journal: Computational and Applied Mathematics, 44(3), 106
 
     talks:
       - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
