@@ -189,7 +189,13 @@ export const site = {
      * Tags shown as badges on the blog listing page header.
      * Users can click them to filter posts by tag.
      */
-    displayTags: ['RandNLA', 'Total least squares', 'Null-space problems', 'Backward error', 'Stability'] as string[],
+    displayTags: [
+      'RandNLA',
+      'Total least squares',
+      'Null-space problems',
+      'Backward error',
+      'Stability',
+    ] as string[],
     /** Categories shown as badges on the blog listing page header. */
     displayCategories: [] as string[],
     /**

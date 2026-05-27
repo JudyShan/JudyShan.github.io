@@ -1,6 +1,6 @@
 ---
 title: 'Travel'
-date: 2025-12
+date: 2025-12-06
 description: 'I love travelling. Japan / Singapore / the States'
 category: hobby
 location: 'Nara, Japan'
