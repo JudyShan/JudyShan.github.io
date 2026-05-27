@@ -35,7 +35,7 @@ jobs:
           # ASTRO_SITE: full URL of deployed site, e.g. https://username.github.io
           # ASTRO_BASE: base path for project pages, e.g. /repo-name (leave unset for user pages)
           ASTRO_SITE: ${{ vars.ASTRO_SITE || 'https://judyshan.github.io' }}
-          ASTRO_BASE: ${{ vars.ASTRO_BASE || '/MyWebsite' }}
+          ASTRO_BASE: ${{ vars.ASTRO_BASE || '' }}
 
       - name: Commit updated citations.yml
         run: |

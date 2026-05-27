@@ -40,7 +40,7 @@ export const site = {
    * Set to '/repo-name' for project pages (username.github.io/repo-name).
    * Keep this in sync with astro.config.mjs `base` option.
    */
-  base: '/MyWebsite',
+  base: '',
 
   /** Language code for the site. */
   lang: 'en',
