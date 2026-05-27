@@ -3,7 +3,7 @@ title: 'Sports'
 date: 2026-05-04
 description: 'I love sports. Jogging / Badminton / Riding'
 category: hobby
-location: 'Shanghai, CN'
+location: 'Shanghai, China'
 image: /assets/img/miscellany/sports.jpeg
 imageAlt: 'A ride along Suzhou River'
 ---
