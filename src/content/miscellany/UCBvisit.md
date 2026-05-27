@@ -3,7 +3,7 @@ title: 'Journey at UC Berkeley'
 date: 2024-12-05
 dateLabel: Aug-Dec 2024
 description: 'Photo taken at the last class of Ma221 (2024/12/05)'
-category: visit
+category: exchange
 location: 'University of California, Berkeley'
 image: /assets/img/miscellany/MEwithProfDemmel.jpg
 imageAlt: 'Happy me with Prof. Demmel'

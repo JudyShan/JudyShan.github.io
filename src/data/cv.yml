@@ -19,28 +19,72 @@ cv:
   sections:
     education:
       - institution: Fudan University
+        area: School of Mathematical Sciences
+        degree: Ph.D.
+        location: Shanghai, China
+        start_date: 2025
+        end_date: present
+        highlights:
+          - 'Research areas: randomized numerical linear algebra, total least squares, backward error analysis, large-scale scientific computing.'
+
+      - institution: Fudan University
         area: Mathematics and Applied Mathematics
         degree: B.S.
+        location: Shanghai, China
         start_date: 2021
         end_date: 2025
 
     experience:
+      # - company: Trustworthy AI Lab, University of California, Los Angeles
+      #   position: Remote Research Intern
+      #   location: Los Angeles, CA, USA
+      #   start_date: 2024-04
+      #   end_date: 2024-08
+
       - company: University of California, Berkeley
-        position: Visiting scholar
+        position: Exchange Student, Department of Mathematics
         location: Berkeley, CA, USA
         start_date: 2024-08
         end_date: 2024-12
+        highlights:
+          - 'Coursework: all courses graded A+/A.'
+
+    publications:
+      - title: 'Efficient estimate for the optimal backward error of the multidimensional total least squares'
+        authors:
+          - Jiali Shan
+          - Yimin Wei
+        date: 2026
+        journal: SIAM Journal on Matrix Analysis and Applications, to appear
+
+      - title: 'Optimal backward error of a total least squares and its randomized algorithms'
+        authors:
+          - Jiali Shan
+          - Yimin Wei
+        doi: 10.1137/25M1749657
+        date: 2025
+        journal: SIAM Journal on Matrix Analysis and Applications, 46(3), 2116--2139
+
+      - title: 'Neural networks for total least squares solution of the time-varying linear systems'
+        authors:
+          - Xuezhong Wang
+          - Jiali Shan
+          - Yimin Wei
+        doi: 10.1007/s40314-024-03070-1
+        date: 2025
+        journal: Computational and Applied Mathematics, 44, Article 106
 
     talks:
       - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
         highlights:
-          - the 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
-          - the 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
+          - The 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
+          - The 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
 
     funding:
       - name: National Natural Science Foundation of China (NSFC)
         highlights:
           - 'Category: Youth Student Basic Research Project'
+          - 'Role: Project leader'
           - 'Grant: 123B1008'
           - 'duration: 2023-2025'
           - 'topic: Randomized Algorithms for Toeplitz Total Least Squares Problems'
@@ -53,33 +97,7 @@ cv:
         #   - 'For services to theoretical physics, and especially for his discovery of the law of the photoelectric effect'
 
     skills:
-      - label: Coding
-        details: Matlab, Python, C
+      - label: Programming
+        details: MATLAB, Python, C, LaTeX
       - label: Languages
         details: Mandarin Chinese (native), English (fluent), Japanese (basic)
-    
-
-    publications:
-      - title: 'Optimal backward error of a total least squares and its randomized algorithms'
-        authors:
-          - Jiali Shan
-          - Yimin Wei
-        doi: 10.1137/25M1749657
-        date: 2025-09
-        journal: SIAM Journal on Matrix Analysis and Applications
-
-      - title: 'Efficient estimate for the optimal backward error of the multidimensional total least squares'
-        authors:
-          - Jiali Shan
-          - Yimin Wei
-        date: 2026
-        journal: SIAM Journal on Matrix Analysis and Applications, to appear
-
-      - title: 'Neural networks for total least squares solution of the time-varying linear systems'
-        authors:
-          - Xuezhong Wang
-          - Jiali Shan
-          - Yimin Wei
-        doi: 10.1007/s40314-024-03070-1
-        date: 2025-09
-        journal: Computational and Applied Mathematics

@@ -55,7 +55,7 @@ const postYears = [...postsByYear.keys()].sort((a, b) => b - a);
   <!-- Header bar -->
   <div class="header-bar">
     <h1>{site.blog.name}</h1>
-    <h2>{site.blog.description}</h2>
+    <h2 set:html={site.blog.description} />
   </div>
 
   <!-- Tag / category list + all-tags link -->
