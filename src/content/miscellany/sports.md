@@ -8,4 +8,4 @@ image: /assets/img/miscellany/sports.jpeg
 imageAlt: 'A ride along Suzhou River'
 ---
 
-My 5km PB is 28'33'', 10km PB is 59'40''.
+My 5km PB is 28'24'', 10km PB is 59'40''.
