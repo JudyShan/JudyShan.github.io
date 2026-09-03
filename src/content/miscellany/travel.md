@@ -1,7 +1,7 @@
 ---
 title: 'Travel'
 date: 2025-12-06
-description: 'I love travelling. Japan / Singapore / the States'
+description: 'I love travelling. Japan / Singapore / the States / Switzerland'
 category: hobby
 location: 'Nara, Japan'
 image: /assets/img/miscellany/travel.jpeg
