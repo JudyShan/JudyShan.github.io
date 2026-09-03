@@ -22,16 +22,19 @@ const fontRoot = resolve('node_modules/@fontsource/roboto/files');
 const fontRegular = readFileSync(resolve(fontRoot, 'roboto-latin-400-normal.woff'));
 const fontBold = readFileSync(resolve(fontRoot, 'roboto-latin-700-normal.woff'));
 
+const toArrayBuffer = (buffer: Buffer): ArrayBuffer =>
+  buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+
 const FONTS = [
   {
     name: 'Roboto',
-    data: fontRegular.buffer as ArrayBuffer,
+    data: toArrayBuffer(fontRegular),
     weight: 400 as const,
     style: 'normal' as const,
   },
   {
     name: 'Roboto',
-    data: fontBold.buffer as ArrayBuffer,
+    data: toArrayBuffer(fontBold),
     weight: 700 as const,
     style: 'normal' as const,
   },
