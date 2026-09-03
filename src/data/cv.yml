@@ -78,8 +78,7 @@ cv:
     funding:
       - name: National Natural Science Foundation of China (NSFC)
         highlights:
-          - 'Category: Youth Student Basic Research Project'
-          - 'Role: Project leader'
+          - 'Role: Project leader (Youth Student Basic Research Project)'
           - 'Grant: 123B1008'
           - 'duration: 2023-2025'
           - 'topic: Randomized Algorithms for Toeplitz Total Least Squares Problems'
@@ -93,16 +92,16 @@ cv:
       - name: 2026 ICBS Undergraduate Paper Award
         date: '2026-08'
         issuer: International Congress of Basic Science (ICBS)
-    
-    talks:
-      - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
-        highlights:
-          - The 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
-          - The 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
-          - MoRat summer school, EPFL & ETH, Sep. 2026.
 
     skills:
       - label: Programming
         details: MATLAB, Python, C, LaTeX
       - label: Languages
         details: Mandarin Chinese (native), English (fluent), Japanese (basic)
+
+    talks:
+      - name: 'Backward analysis of the total least squares and its Randomized Algorithms'
+        highlights:
+          - The 8th Peking University Symposium for Outstanding PhD Students in Computational and Applied Mathematics, Peking University, Nov. 2025.
+          - The 7th Luojia Doctoral Forum in Mathematics, Wuhan University, Apr. 2026.
+          - MoRat summer school, EPFL & ETH, Sep. 2026.
