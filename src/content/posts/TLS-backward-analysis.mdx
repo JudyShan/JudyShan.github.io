@@ -19,15 +19,30 @@ import Sidenote from '@components/Sidenote.astro';
 
 Total least squares (TLS) is often regarded as a natural extension of least squares (LS).
 $$
-\min_{E,f}\left\|\begin{bmatrix}E, f\end{bmatrix}\right\|_{\rm F}
+\min_{E,f}
+\left\|
+\begin{bmatrix}
+E & f
+\end{bmatrix}
+\right\|_{\mathrm F}
 \quad
 \text{subject to}
 \quad
 (A+E)x=b+f.
+\tag{\mathrm{TLS}}
 $$
-This viewpoint is compelling at the level of data modeling, as we will see, 
-and it also helps explain why statisticians were among the first to study the problem. 
-Yet the analogy becomes much less straightforward once one tries to transfer the theory — and especially the algorithmic principles — of LS directly to TLS.
+
+$$
+\min_{\Delta b}
+\left\|\Delta b\right\|_2
+\quad
+\text{subject to}
+\quad
+Ax=b+\Delta b.
+\tag{\mathrm{LS}}
+$$
+This viewpoint is compelling at the level of data modeling, and it also helps explain why statisticians were among the first to study the problem. 
+Yet the analogy could be much less straightforward as we will see.
 
 Despite a substantial body of theoretical work, we still lack TLS algorithms that simultaneously satisfy the practical requirements one would expect of a satisfactory numerical solver.<Sidenote number={1} label="Explanation of a satisfactory numerical solver">By “satisfactory,” I mean methods that are fast in large-scale problems, remain reasonably accurate for at least moderately ill-conditioned problems, and are numerically stable.</Sidenote>
 In my view, this gap is partly obscured by the way the subject has developed: increasingly refined theoretical treatments have revealed much of the mathematical subtlety of TLS, but this sophistication has not always translated into comparable progress in practical algorithms. 
