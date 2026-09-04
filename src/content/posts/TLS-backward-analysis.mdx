@@ -1,22 +1,29 @@
 ---
-title: 'Total least squares and its backward analysis'
+title: 'Total least squares and its backward error'
 date: 2026-09-04
-description: 'Introduction to TLS, (almost) complete theory for its backward error and some reflections on the ongoing work.'
+description: 'why TLS, how to compute its backward error and some reflections.'
 tags:
   - 'Total least squares'
   - 'Backward error'
   - 'RandNLA'
 categories:
-  - 'Elaboration and Reflection'
+  - 'research notes'
 math: true
 toc: true
 relatedPosts: true
-pinned: true
+pinned: false
 hidden: false
 draft: false
 ---
 
-## Least squares (LS) and total least squares (TLS)
+Understanding the intrinsic structure of TLS, making its backward error efficient to compute and figuring out new possibilities for related problems 
+are the main subjects of my recent work:
+
+- [*Efficient estimate for the optimal backward error of the multidimensional total least squares*](https://doi.org/10.1137/25M1788312).
+
+- [*Optimal backward error of a total least squares and its randomized algorithms*](https://doi.org/10.1137/25M1749657).
+
+## 1. From LS to TLS: are they closely related?
 
 Consider the total least squares problem
 
@@ -43,8 +50,5 @@ $$
 \leq C\varepsilon.
 $$
 
-## 3. Interpretation of the result
+## 3. Not only backward error
 
-From a numerical linear algebra perspective, this result suggests that ...
-
-### 3.1 Why the assumption matters

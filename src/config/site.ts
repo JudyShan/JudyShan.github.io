@@ -180,9 +180,9 @@ export const site = {
 
   blog: {
     /** Name shown in the blog page heading. */
-    name: 'Randomized techniques / Total least squares / Null-space',
+    name: 'RandNLA / Null-space / Total least squares',
     description:
-      'To make TLS solvers fast and stable, NS algorithms accurate.<br />Improve traditional diagrams and change the world.',
+      'To make TLS solvers fast and stable, NS algorithms accurate.<br /> Provide new tools and change the world (ideally).',
     /** Number of posts per page. */
     postsPerPage: 5,
     /**
