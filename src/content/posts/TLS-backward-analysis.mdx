@@ -15,29 +15,40 @@ pinned: false
 hidden: false
 draft: false
 ---
+Total least squares (TLS) is often regarded as a natural extension of least squares (LS).
+This viewpoint is compelling at the level of data modeling, as we will see, 
+and it also helps explain why statisticians were among the first to study the problem. 
+Yet the analogy becomes much less straightforward once one tries to transfer the theory —— and especially the algorithmic principles —— of LS directly to TLS.
 
-Understanding the intrinsic structure of TLS, making its backward error efficient to compute and figuring out new possibilities for related problems 
-are the main subjects of my recent work:
+Despite a substantial body of theoretical work, we still lack TLS algorithms that simultaneously satisfy the practical requirements one would expect of a satisfactory numerical solver.[^1]
+In my view, this gap is partly obscured by the way the subject has developed: increasingly refined theoretical treatments have revealed much of the mathematical subtlety of TLS, but this sophistication has not always translated into comparable progress in practical algorithms. 
+TLS therefore deserves more emphasis than it has received—not simply through further abstraction, but through a reconsideration of which structures are actually useful for computation.
 
-- [*Efficient estimate for the optimal backward error of the multidimensional total least squares*](https://doi.org/10.1137/25M1788312).
+One such viewpoint concerns backward error. 
+I originally approached backward error as a first step toward a more complete stability theory for TLS. During this work, however, I came to see that it may play a more constructive role. 
+Backward error need not be only a diagnostic tool used after an algorithm has been designed; it can also reveal exploitable structure, suggest computable quantities that reflect proximity to the TLS solution, and potentially guide the design of the iteration itself. 
+Developing this perspective —— and exploring how it can lead to new approaches for TLS and related problems in scientific computing —— is one of the main themes of my ongoing work.
 
-- [*Optimal backward error of a total least squares and its randomized algorithms*](https://doi.org/10.1137/25M1749657).
+In this post, I will begin by laying out the ideas developed in my recent papers and leave some reflections that could be of great help.
+
+[^1]: By “satisfactory,” I mean methods that are fast in large-scale problems, remain
+      reasonably accurate for at least moderately ill-conditioned problems, and are
+      numerically stable.
 
 ## 1. From LS to TLS: are they closely related?
 
 Consider the total least squares problem
 
 $$
-\min_{E,f}\left\|\begin{bmatrix}E & f\end{bmatrix}\right\|_F
+\min_{E,f}\left\|\begin{bmatrix}E, f\end{bmatrix}\right\|_{\rm F}
 \quad
 \text{subject to}
 \quad
 (A+E)x=b+f.
 $$
 
-In our previous work, we studied ...
 
-## 2. What the original paper established
+## 2. Backward error and its efficient computation
 
 The main result can be summarized as follows.
 
@@ -50,5 +61,5 @@ $$
 \leq C\varepsilon.
 $$
 
-## 3. Not only backward error
+## 3. More than just backward error
 
