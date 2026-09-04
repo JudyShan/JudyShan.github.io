@@ -135,7 +135,7 @@ const jsonLd = {
   {site.features.progressBar && <ReadingProgress />}
 
   <div class="page-container py-8">
-    <div class="flex gap-8">
+    <div class="post-layout flex justify-center gap-8">
       <!-- TOC sidebar (desktop only) -->
       {
         headings.length > 0 && (
@@ -146,7 +146,7 @@ const jsonLd = {
       }
 
       <!-- Post content -->
-      <article class="flex-1 min-w-0">
+      <article class="post-article min-w-0 flex-1">
         <!-- Breadcrumb -->
         <nav aria-label="Breadcrumb" class="breadcrumb-nav">
           <a href={`${site.base}/blog/`} class="breadcrumb-link">← Blog</a>
@@ -502,6 +502,11 @@ const jsonLd = {
 )}
 
 <style is:global>
+  .post-article {
+    width: 100%;
+    max-width: var(--article-max-width);
+  }
+
   /* TikZJax processes <script type="text/tikz"> elements asynchronously (WASM).
      Show a subtle "Loading diagram…" placeholder while the WASM pipeline runs.
      Once tikzjax replaces the element with an <svg>, this rule no longer applies. */

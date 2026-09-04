@@ -36,7 +36,7 @@ const rt = post.body ? calcReadingTime(post.body) : 1;
   {site.features.progressBar && <ReadingProgress />}
 
   <div class="distill-page-container py-8">
-    <div class="mx-auto flex max-w-5xl gap-8 px-4">
+    <div class="distill-inner mx-auto flex justify-center gap-8 px-4">
       <!-- TOC sidebar (desktop only) -->
       {
         headings.length > 0 && (
@@ -134,6 +134,15 @@ const rt = post.body ? calcReadingTime(post.body) : 1;
 
 <style>
   /* ── Distill-inspired article styles ── */
+
+  .distill-inner {
+    max-width: var(--page-max-width);
+  }
+
+  .distill-article {
+    width: 100%;
+    max-width: var(--article-max-width);
+  }
 
   .distill-title {
     font-size: 2.25rem;

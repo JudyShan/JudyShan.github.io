@@ -106,12 +106,12 @@
 
 @layer utilities {
   /**
-   * .page-container — max-width wrapper matching al-folio's 930px container.
-   * Use on all top-level page sections.
+   * .page-container — shared responsive wrapper for all top-level page sections.
+   * Its desktop width is controlled by --page-max-width in _colors.css.
    */
   .page-container {
     width: 100%;
-    max-width: 930px;
+    max-width: var(--page-max-width);
     margin-left: auto;
     margin-right: auto;
     padding-left: 1rem;

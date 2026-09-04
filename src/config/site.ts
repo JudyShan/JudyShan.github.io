@@ -180,7 +180,7 @@ export const site = {
 
   blog: {
     /** Name shown in the blog page heading. */
-    name: 'RandNLA / Null-space (Total least squares)',
+    name: 'RandNLA / Null-space (TLS)',
     description:
       'To make TLS solvers fast and stable, NS algorithms accurate.<br /> Provide new tools and change the world (ideally).',
     /** Number of posts per page. */
@@ -253,6 +253,8 @@ export const site = {
     masonry: true,
     /** Enable click-to-zoom on images (medium-zoom). */
     mediumZoom: true,
+    /** Enable clickable numbered sidenotes in MDX content. */
+    sidenotes: true,
     /** Show styled CSS tooltips on hover for project card icons and publication annotations.
      *  When false, the browser's native title-attribute tooltip is used instead. */
     tooltips: false,

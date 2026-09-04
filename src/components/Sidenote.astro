@@ -1,0 +1,182 @@
+---
+import { site } from '@config/site';
+
+interface Props {
+  /** Number displayed beside the sentence. */
+  number: number | string;
+  /** Accessible description announced for the trigger button. */
+  label: string;
+}
+
+const { number, label } = Astro.props;
+const enabled = site.features.sidenotes;
+const noteId = `sidenote-${String(number).replace(/[^a-zA-Z0-9_-]/g, '-')}-${Math.random()
+  .toString(36)
+  .slice(2, 8)}`;
+---
+
+{
+  enabled ? (
+    <span class="sidenote" data-sidenote>
+      <button
+        class="sidenote-trigger"
+        type="button"
+        aria-label={label}
+        aria-controls={noteId}
+        aria-expanded="false"
+      >
+        <sup>{number}</sup>
+      </button>
+      <span class="sidenote-panel" id={noteId} role="note" hidden>
+        <slot />
+      </span>
+    </span>
+  ) : (
+    <span class="sidenote-fallback">
+      {' ('}
+      <slot />
+      {')'}
+    </span>
+  )
+}
+
+<script>
+  function closeSidenotes(except?: HTMLElement) {
+    document.querySelectorAll<HTMLElement>('[data-sidenote]').forEach((sidenote) => {
+      if (sidenote === except) return;
+
+      const trigger = sidenote.querySelector<HTMLButtonElement>('.sidenote-trigger');
+      const panel = sidenote.querySelector<HTMLElement>('.sidenote-panel');
+      if (!trigger || !panel) return;
+
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      panel.style.removeProperty('--sidenote-shift');
+    });
+  }
+
+  function keepPanelInViewport(panel: HTMLElement) {
+    panel.style.removeProperty('--sidenote-shift');
+    const margin = 12;
+    const bounds = panel.getBoundingClientRect();
+    let shift = 0;
+
+    if (bounds.left < margin) shift = margin - bounds.left;
+    if (bounds.right + shift > window.innerWidth - margin) {
+      shift += window.innerWidth - margin - (bounds.right + shift);
+    }
+
+    panel.style.setProperty('--sidenote-shift', `${shift}px`);
+  }
+
+  function initSidenotes() {
+    document.querySelectorAll<HTMLElement>('[data-sidenote]').forEach((sidenote) => {
+      if (sidenote.dataset.sidenoteReady === 'true') return;
+
+      const trigger = sidenote.querySelector<HTMLButtonElement>('.sidenote-trigger');
+      const panel = sidenote.querySelector<HTMLElement>('.sidenote-panel');
+      if (!trigger || !panel) return;
+
+      sidenote.dataset.sidenoteReady = 'true';
+      trigger.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const willOpen = panel.hidden;
+        closeSidenotes(willOpen ? sidenote : undefined);
+        panel.hidden = !willOpen;
+        trigger.setAttribute('aria-expanded', String(willOpen));
+        if (willOpen) keepPanelInViewport(panel);
+      });
+    });
+  }
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element) || !target.closest('[data-sidenote]')) closeSidenotes();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeSidenotes();
+  });
+
+  document.addEventListener('astro:page-load', initSidenotes);
+  initSidenotes();
+</script>
+
+<style>
+  .sidenote {
+    position: relative;
+    display: inline;
+  }
+
+  .sidenote-trigger {
+    display: inline;
+    margin: 0 0.08em;
+    padding: 0.02em 0.2em;
+    border: 0;
+    border-radius: 0.2rem;
+    background: var(--global-card-bg-color);
+    color: var(--global-text-color-light);
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .sidenote-trigger:hover,
+  .sidenote-trigger:focus-visible,
+  .sidenote-trigger[aria-expanded='true'] {
+    background: var(--global-theme-color);
+    color: var(--global-hover-text-color);
+    outline: none;
+  }
+
+  .sidenote-trigger:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--global-bg-color),
+      0 0 0 4px var(--global-theme-color);
+  }
+
+  .sidenote-trigger sup {
+    position: relative;
+    top: -0.15em;
+    font-size: 0.68em;
+  }
+
+  .sidenote-panel {
+    --sidenote-shift: 0px;
+    position: absolute;
+    z-index: 50;
+    top: calc(100% + 0.55rem);
+    left: -0.75rem;
+    width: min(28rem, calc(100vw - 1.5rem));
+    padding: 0.85rem 1rem;
+    transform: translateX(var(--sidenote-shift));
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.35rem;
+    background: var(--global-bg-color);
+    box-shadow: 0 0.45rem 1.25rem rgb(0 0 0 / 18%);
+    color: var(--global-text-color);
+    font-size: 0.92em;
+    font-weight: 400;
+    line-height: 1.55;
+    text-align: left;
+  }
+
+  .sidenote-panel[hidden] {
+    display: none;
+  }
+
+  .sidenote-panel :global(a) {
+    color: var(--global-theme-color);
+  }
+
+  .sidenote-fallback {
+    color: var(--global-text-color-light);
+    font-size: 0.92em;
+  }
+
+  @media (max-width: 640px) {
+    .sidenote-panel {
+      font-size: 0.88em;
+    }
+  }
+</style>

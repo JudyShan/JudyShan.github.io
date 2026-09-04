@@ -750,11 +750,29 @@ features: {
   backToTop: true,      // floating back-to-top button
   masonry: true,        // auto masonry layout for projects
   mediumZoom: true,     // click-to-zoom on images
+  sidenotes: true,      // clickable numbered notes in MDX posts
   cookieConsent: false, // GDPR cookie dialog
   newsletter: false,    // newsletter form in footer
   videoEmbedding: false,// embed video links in bib entries
 },
 ```
+
+To add a clickable sidenote to an `.mdx` post, import the component after the frontmatter
+and place it immediately after the relevant sentence:
+
+```mdx
+import Sidenote from '@components/Sidenote.astro';
+
+This statement needs a short clarification.<Sidenote
+  number={1}
+  label="Explanation of the statement"
+>
+  Write the clarification here. It appears in a floating box when the reader clicks 1.
+</Sidenote>
+```
+
+Use a different `number` for each note. The `label` describes the button to screen-reader
+users. Set `features.sidenotes` to `false` to display the explanations inline instead.
 
 ---
 
@@ -767,6 +785,8 @@ All theming is done through CSS custom properties defined in `src/styles/_colors
   --global-theme-color: #b509ac; /* accent color (default: purple) */
   --global-bg-color: #ffffff;
   --global-text-color: #000000;
+  --page-max-width: 1120px;    /* navbar, homepage, and general page width */
+  --article-max-width: 840px;  /* readable text width for blog posts */
   /* ... see _colors.css for full list */
 }
 
