@@ -255,6 +255,8 @@ export const site = {
     mediumZoom: true,
     /** Enable clickable numbered sidenotes in MDX content. */
     sidenotes: true,
+    /** Enable styled theorem, lemma, definition, fact, remark, and proof blocks in MDX. */
+    statements: true,
     /** Show styled CSS tooltips on hover for project card icons and publication annotations.
      *  When false, the browser's native title-attribute tooltip is used instead. */
     tooltips: false,

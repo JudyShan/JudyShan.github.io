@@ -751,6 +751,7 @@ features: {
   masonry: true,        // auto masonry layout for projects
   mediumZoom: true,     // click-to-zoom on images
   sidenotes: true,      // clickable numbered notes in MDX posts
+  statements: true,     // styled mathematical statement blocks in MDX posts
   cookieConsent: false, // GDPR cookie dialog
   newsletter: false,    // newsletter form in footer
   videoEmbedding: false,// embed video links in bib entries
@@ -773,6 +774,21 @@ This statement needs a short clarification.<Sidenote
 
 Use a different `number` for each note. The `label` describes the button to screen-reader
 users. Set `features.sidenotes` to `false` to display the explanations inline instead.
+
+For theorem-like blocks in an `.mdx` post, import `Statement` and choose a supported
+`type`: `theorem`, `lemma`, `proposition`, `corollary`, `definition`, `remark`, `fact`,
+or `proof`.
+
+```mdx
+import Statement from '@components/Statement.astro';
+
+<Statement type="theorem" number="2.1" title="A descriptive title">
+State the result here. Inline mathematics uses `$...$`; display mathematics uses `$$...$$`.
+</Statement>
+```
+
+Set `features.statements` to `false` to keep the semantic heading and content without
+the colored box styling.
 
 ---
 
