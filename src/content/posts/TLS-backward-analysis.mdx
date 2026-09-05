@@ -17,10 +17,11 @@ draft: false
 ---
 import Sidenote from '@components/Sidenote.astro';
 import Statement from '@components/Statement.astro';
+import Figure from '@components/Figure.astro';
 
 Total least squares (TLS) is often regarded as a natural extension of least squares (LS).
 While the latter has made fundamental influence in many areas thanks to its abundant theory and well-deveolped algorithms, the former is still attractive (but harder to solve) since it is more comprehensive with respect to considering all the errors in the data.
-For single right-hand side system $[A,b]$<Sidenote number={1}>my papers deal with the general multidimensional case $[A,B]$ and consider weighting between two perturbations.</Sidenote>, where $A\in\mathbb{R}^{m\times n}(m \ll n)$ and $b\in\mathbb{R}^{m}$, 
+For a single right-hand side system $[A,b]$<Sidenote number={1}>my papers deal with the general multidimensional case $[A,B]$ and consider weighting between two perturbations.</Sidenote>, where $A\in\mathbb{R}^{m\times n}(m \gg n)$ and $b\in\mathbb{R}^{m}$, 
 two problems are written as<Sidenote number={2}> Typically, we write LS as $\min_{x} \|Ax-b\|_{2}$. Here, we change to an equivalent form for comparison.</Sidenote>
 $$
 \min_{\Delta A,\Delta b}
@@ -61,6 +62,7 @@ and
 and offer a few reflections that may be useful for future work.
 ## 1. From LS to TLS: are they essentially related and how?
 By relating to low-rank approximation, or [Eckart–Young–Mirsky theorem](https://en.wikipedia.org/wiki/Low-rank_approximation), one could understand that $[x_{\mathrm{TLS}};-1]$ is parallel to the right singular vector corresponding to the smallest singular value of $[A,b]$.
+I will not repeat [basic results of TLS](https://doi.org/10.1137/0717073) here.
 Consider the singular value decomposition (SVD) of this augmented matrix
 $$
 \begin{bmatrix}
@@ -96,9 +98,9 @@ v_{22}\neq 0.
 $$
 
 People derive, based on the above knowledge, a normal equation for TLS as $\bf \left(A^\top A-\sigma_{n+1}^{2}([A,b])I\right)x=A^\top b$, which I will call the _classical normal equation_.
-At the same time, the normal equation for LS is more elegant as $\bf A^\top r=0$ where $r=b-Ax$ is the residual.
+When it comes to LS, the normal equation is much more elegant as $\bf A^\top r=0$ where $r=b-Ax$ is the residual.
 If we want to potentially leverage LS thoery, we definitely need new results that can treat TLS as a modified LS.
-The following theorem achieves the goal.
+The following theorem achieves the goal by giving a _structural normal equation_, and more importantly, show the intrinsic quantities of TLS.
 
 <Statement
   type="theorem"
@@ -158,7 +160,7 @@ $$
 Here, $\mathcal{R}(M)$ denotes the range of $M$.
 
 </Statement>
-
+I shall present only the key parts of the proof which shed a light on the TLS structure. Extension to multidimensional cases is straightforward.
 <Statement type="proof">
 
 Let the SVD of $\begin{bmatrix}A, b\end{bmatrix}$, with the singular values arranged in nonincreasing order, be
@@ -175,14 +177,8 @@ u_i\sigma_i v_i^\top
 u_{n+1}\sigma_{n+1}v_{n+1}^\top
 \coloneqq
 \begin{bmatrix}
-\widehat A & \widehat b
+\widehat A, \widehat b
 \end{bmatrix}
-+
-\begin{bmatrix}
-\widetilde A & \widetilde b
-\end{bmatrix}
-=
-U_1\Sigma_1V_1^\top
 +
 u_{n+1}\sigma_{n+1}v_{n+1}^\top.
 $$
@@ -202,58 +198,37 @@ x^\top
 \left(I_n+xx^\top\right)^{-1/2}, \quad
 T_2
 =
-\frac{1}{\sqrt{1+x^\top x}}
 \begin{bmatrix}
 x\\
 -1
-\end{bmatrix}.
+\end{bmatrix}\left(I+x^\top x\right)^{-1/2}.
 $$
 
-It is straightforward to verify that $T_1^\top T_1=I_n, T_2^\top T_2=1, T_1^\top T_2=0$, and $T_1T_1^\top+T_2T_2^\top=I$.
+It is straightforward to verify that $T_1^\top T_1=I_n, T_2^\top T_2=1, T_1^\top T_2=0$, and $T_1T_1^\top+T_2T_2^\top=I_{n+1}$.
 
 Consequently, $\begin{bmatrix}T_1, T_2\end{bmatrix}$ is an orthogonal matrix. Now define
-
 $$
-\begin{aligned}
-\overline A
-&=
-\left(A+bx^\top\right)
-\left(I_n+xx^\top\right)^{-1/2}
-\\
-&\coloneqq
+\widetilde A=\left(A+bx^\top\right)\left(I_n+xx^\top\right)^{-1/2}\coloneqq
 \begin{bmatrix}
-A & b
+A, b
 \end{bmatrix}T_1,
-\end{aligned}
+\quad 
+\widetilde r=\frac{Ax-b}{\sqrt{1+x^\top x}}\coloneqq\begin{bmatrix}A, b
+\end{bmatrix}T_2 .
 $$
 
-and
+The first condition in the theorem is equivalent to<Sidenote number={4}>It can be further reduced to (2.1a) by the invertibility of two auxiliary matrices (scalar).</Sidenote>
 
 $$
-\begin{aligned}
-\overline r
-&=
-\frac{Ax-b}{\sqrt{1+x^\top x}}
-\\
-&\coloneqq
-\begin{bmatrix}
-A & b
-\end{bmatrix}T_2.
-\end{aligned}
+\widetilde A^\top\widetilde r=0,
 $$
 
-The first condition in the theorem is equivalent to
+whereas the second condition is equivalent to<Sidenote number={5}> It will be helpful to think of $\|\widetilde r\|_2$ as $\sigma_{\mathrm{max}}(r)$.</Sidenote>
 
 $$
-\overline A^\top\overline r=0,
-$$
-
-whereas the second condition is equivalent to
-
-$$
-\left\|\overline r\right\|_2
+\left\|\widetilde r\right\|_2
 <
-\sigma_{\min}\left(\overline A\right).
+\sigma_{\mathrm{min}}\left(\widetilde A\right).
 $$
 
 Therefore, it remains to prove the equivalent characterization
@@ -262,17 +237,324 @@ $$
 \boxed{
 x\text{ is the true TLS solution}
 \quad\Longleftrightarrow\quad
-\overline A^\top\overline r=0
+\widetilde A^\top\widetilde r=0
 \quad\text{and}\quad
-\left\|\overline r\right\|_2
+\left\|\widetilde r\right\|_2
 <
-\sigma_{\min}\left(\overline A\right)
+\sigma_{\min}\left(\widetilde A\right)
 }.
 $$
 
 </Statement>
+It can be proven that there always exists a neighbourhood of $x_{\mathrm{TLS}}$ such that (2.1b) uniformly holds.
+This is a good news for iterative ideas. 
+One imprtant takeaway here is the _structural normal equation_, not exactly (2.1a), but 
+$$
+\widetilde A^\top \widetilde r=0, \quad \mathrm{where} \quad \widetilde{A}=\left(A+bx^\top\right)\left(I_n+xx^\top\right)^{-1/2}, \widetilde{r}=\frac{Ax-b}{\sqrt{1+\|x\|^{2}}},
+$$
+which tells that TLS cares about a complicated coupling of $A,b$ and the solution $x$, rather than just making the residual orthogonal to a fixed plane.
+Such differences paralyze some famous techniques that play a significant role in making LS trustworthy, such as iterative refinement.
+But it is still worthy to ask under what conditions an LS solution will not be far away from the according TLS solution.
+I provide a perspective as follows.
+
+<Statement
+  type="theorem"
+  number="1.2"
+  title="Component-wise error of a backward stable LS solution to the true TLS solution"
+>
+
+Given a backward stable LS solution $\hat{x}$ to an overdetermined system $[A,b]$, the component-wise error of $x_{\mathrm{TLS}}$ to $\hat{x}$ with respect to the right singular vectors of $A$, is upper-bounded for $i=1,2,\ldots,n$ as
+
+$$
+\left|v_i^{\top}\left(\left(1-\frac{{\sigma_{n+1}([A,b])}^{2}}{\sigma_i(A)^{2}}\right)x_{\mathrm{TLS}}-\hat{x}\right)\right|
+\lesssim
+\frac{1}{\sigma_i}
+\|\hat{x}\|\|[A,b]\|\,u+\frac{1}{\sigma_i^{2}}\|b-A\hat{x}\|\|[A,b]\|\,u,
+$$
+where $u$ is the unit roundoff. The notation $\lesssim$ means that the left-hand side is bounded above by $C(m,n)$ times the right-hand side for some low-degree polynomial $C(m,n)$.
+</Statement>
+Backward stability will be explained in details later. For readers who are not familiar, just think of a backward stable solution as a best candidate that we can ever expect from a numerical method.
+
+From the above, LS information can be exploited under certain conditions.
+Also, normal condition number, defined by the ratio between the maximum and minimum singular values of a matrix, fails to characterize the difficulty of a TLS system but spectral gap (or [effective condition number](https://link.springer.com/article/10.1007/BF01400115)) does.
+Specificlly, a small LS residual indicates a similar TLS solution, which shows that a TLS modeling is not very necessary for a relatively consistent system.
+
+<Statement
+  type="proposition"
+  number="1.3"
+  title="The residual of the LS solution matters"
+>
+
+Let $x_{\mathrm{LS}}$ be the LS solution and $r_{\mathrm{LS}}=b-Ax_{\mathrm{LS}}$ be its residual. 
+Denote $\kappa=\sigma_{\max}(A)/\sigma_{\min}(A)$ as the normal condition number of $A$ and follow the previous notation. 
+If there is a gap between $1$ and $\kappa\|r_{\mathrm{LS}}\|<1$, then the ratio $\sigma_{n+1}([A,b])/\sigma_n(A)$ is away from $1$.
+
+</Statement>
+
+There are other gaps between these two problems.
 
 ## 2. Backward error and its efficient computation
 
+Numerical algorithms run in finite precision, so even a mathematically correct method rarely returns
+the exact solution of the data supplied to it. A solver is called _backward stable_ if its computed
+output is the exact solution of a nearby problem, with the required change in the input comparable
+to the rounding errors introduced during the computation. This point of view deliberately separates
+the behavior of the algorithm from the conditioning of the problem: a backward-stable answer can
+still have a large forward error when the underlying problem is ill-conditioned.
+
+Backward stability is one reason to study the backward error of TLS. Before we can prove that a TLS
+solver is stable, or decide when an iterative method should stop, we need a quantitative answer to
+the following question:
+
+> How much must the original data be perturbed before $\widetilde x$ becomes an exact TLS solution?
+
+The question is especially natural for TLS because both $A$ and $b$ are already assumed to contain
+errors. A small backward error certifies that the computed answer solves a nearby problem of the
+same type, even when comparison with the unknown exact solution is impossible. For stability
+analysis we want an exact characterization; for actual solvers we also need a reliable estimate
+that is inexpensive enough to evaluate repeatedly. In large-scale problems, this second requirement
+leads naturally to randomized algorithms.
+
+### 2.1 An optimal backward error
+
+<Statement type="definition" number="2.1" title="TLS backward error">
+
+For a computed approximation $\widetilde x\in\mathbb{R}^n$, define
+
+$$
+\tau(\widetilde x)
+=
+\min_{E,f}
+\left\|
+\begin{bmatrix}
+E,\ f
+\end{bmatrix}
+\right\|_{\mathrm F}
+$$
+
+subject to the structural normal equation for the perturbed data,
+
+$$
+\left((A+E)+(b+f)\widetilde x^\top\right)^\top
+\left((A+E)\widetilde x-(b+f)\right)=0.
+$$
+
+</Statement>
+
+The normalized quantity $\tau(\widetilde x)/\|[A,b]\|_{\mathrm F}$ measures the size of the smallest
+relative change to the data. In the usual normwise sense, a TLS algorithm is backward stable when
+this ratio is bounded by a modest dimension-dependent constant times the unit roundoff $u$.
+
+Strictly speaking, the second, spectral-separation condition in Theorem 1.1 must also hold before
+$\widetilde x$ is the global TLS solution of the nearby problem. The definition above uses the
+relaxed feasible set determined by the structural normal equation. This relaxation is useful rather
+than merely convenient: as $\widetilde x$ approaches the true TLS solution, the optimal perturbation
+obtained from this set also satisfies the missing separation condition. Thus the relaxed backward
+error is asymptotically the genuine one near the solution.
+
+The apparently nonlinear minimization above has a concise closed form. Define the two intrinsic
+quantities
+
+$$
+\widetilde A
+=
+\left(A+b\widetilde x^\top\right)
+\left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2},
+\qquad
+\widetilde r
+=
+\frac{b-A\widetilde x}
+{\sqrt{1+\|\widetilde x\|_2^2}}.
+\tag{2.2}
+$$
+
+These are precisely the modified matrix and scaled residual that appeared in Section 1, up to the
+harmless choice of sign for the residual.
+
+<Statement type="theorem" number="2.2" title="Optimal backward-error formula">
+
+Let
+
+$$
+\lambda
+=
+\lambda_{\min}\!\left(
+\widetilde A\widetilde A^\top
+-
+\widetilde r\widetilde r^\top
+\right).
+$$
+
+Then the optimal backward error is
+
+$$
+\boxed{
+\tau(\widetilde x)
+=
+\left[
+\|\widetilde r\|_2^2
++
+\min\{0,\lambda\}
+\right]^{1/2}
+}.
+\tag{2.3}
+$$
+
+</Statement>
+
+Formula (2.3) separates two effects. The first term measures the scaled residual, while the
+eigenvalue correction detects whether a coupled perturbation of $A$ and $b$ can make
+$\widetilde x$ an exact TLS solution more cheaply than correcting the residual alone. This is why
+$\|b-A\widetilde x\|_2$ by itself is not a reliable TLS certificate.
+
+There is nevertheless a computational problem: evaluating $\lambda$ directly involves an
+$m\times m$ eigenvalue problem. For a tall data matrix with $m\gg n$, the exact formula is therefore
+more useful as a theoretical characterization than as an implementation.
+
+### 2.2 A computable estimate
+
+The large eigenvalue problem can be replaced by the following quantity involving only an
+$n\times n$ positive-definite matrix:
+
+$$
+\widetilde\tau(\widetilde x)
+=
+\left\|
+\left(
+\widetilde A^\top\widetilde A
++
+\|\widetilde r\|_2^2 I_n
+\right)^{-1/2}
+\widetilde A^\top\widetilde r
+\right\|_2.
+\tag{2.4}
+$$
+
+<Statement type="theorem" number="2.3" title="A tight computable estimate">
+
+For every computed approximation $\widetilde x$,
+
+$$
+\boxed{
+\widetilde\tau(\widetilde x)
+\leq
+\tau(\widetilde x)
+\leq
+\sqrt{2}\,\widetilde\tau(\widetilde x)
+}.
+\tag{2.5}
+$$
+
+</Statement>
+
+Hence $\widetilde\tau$ is not a heuristic: it approximates the optimal backward error to
+within a factor of $\sqrt{2}$. If
+$\widetilde A=U\Sigma V^\top$, it can also be evaluated without explicitly forming a matrix
+inverse square root:
+
+$$
+\widetilde\tau(\widetilde x)^2
+=
+\sum_{i=1}^{n}
+\frac{\sigma_i^2}
+{\sigma_i^2+\|\widetilde r\|_2^2}
+\left(u_i^\top\widetilde r\right)^2.
+\tag{2.6}
+$$
+
+This already avoids an $m\times m$ eigendecomposition, but forming a full factorization of
+$\widetilde A$ may still be expensive when the number of observations is very large.
+Randomized sketching gives one more reduction. Let $S\in\mathbb{R}^{s\times m}$ be a subspace
+embedding for the columns of $[A,b]$ with distortion $\varepsilon\in(0,1)$, and define
+
+$$
+\widetilde\tau^{\mathrm{sk}}(\widetilde x)
+=
+\left\|
+\left(
+(S\widetilde A)^\top(S\widetilde A)
++
+\|\widetilde r\|_2^2 I_n
+\right)^{-1/2}
+\widetilde A^\top\widetilde r
+\right\|_2.
+\tag{2.7}
+$$
+
+The sketch preserves a rigorous certificate:
+
+$$
+(1-\varepsilon)\widetilde\tau^{\mathrm{sk}}(\widetilde x)
+\leq
+\tau(\widetilde x)
+\leq
+\sqrt{2}(1+\varepsilon)
+\widetilde\tau^{\mathrm{sk}}(\widetilde x).
+\tag{2.8}
+$$
+
+With a sparse embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and never
+forms the large matrix in (2.3). The factor
+$\left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2}$ is only a rank-one update of the
+identity, so $\widetilde A$ can also be formed efficiently. MATLAB implementations of the estimators
+and the scripts used for the experiments below are available in the
+[mTLS Efficient Backward Error Estimate code repository](https://github.com/JudyShan/mTLS-Efficient-Backward-Error-Estimate).
+
+### 2.3 Are the bounds tight in practice?
+
+The following experiment uses $m=3000$, $n=20$, and 200 random problems at each of three condition
+numbers. The horizontal axis is the exact backward error divided by its estimate. The blue
+distributions correspond to $\tau/\widetilde\tau$, which theory places between $1$ and $\sqrt{2}$;
+the orange distributions use the sketched estimate. In the top row, which is the vector case studied
+in this post, the ratios remain tightly concentrated even as $\kappa(A)$ increases from $10^8$ to
+$10^{16}$. The bottom row shows the analogous behavior for ten right-hand sides.
+
+<Figure
+  path="/assets/img/tls-backward-error-tightness.png"
+  alt="Density plots of exact TLS backward error divided by deterministic and sketched estimates for one and ten right-hand sides across three condition numbers"
+  caption="Tightness of the deterministic and sketched estimates. The green and red dashed lines mark 1 and the factor sqrt(2), respectively."
+/>
+
+### 2.4 Efficiency and use as a stopping criterion
+
+The runtime grows approximately linearly with $n$ for fixed $m$. The left panel below is the vector
+case; the remaining panels show that the same scaling persists for multiple right-hand sides. This
+is the practical gain of estimating the backward error through a sketch rather than evaluating the
+exact $m\times m$ eigenvalue formula.
+
+<Figure
+  path="/assets/img/tls-backward-error-runtime.png"
+  alt="Runtime of the sketched backward-error estimate against the number of columns for several row counts and numbers of right-hand sides"
+  caption="Runtime of the sketched estimator as the problem dimensions vary."
+/>
+
+An efficient certificate can also influence the design of the solver itself. In the next experiment,
+the backward-error estimate is used to stop an iterative TLS method once it reaches the scale of
+machine precision. The red stars mark the selected stopping iterations. Continuing afterward gives
+essentially no improvement, so the certificate avoids unnecessary iterations while preserving the
+attained accuracy.
+
+<Figure
+  path="/assets/img/tls-backward-error-stopping.png"
+  alt="Backward error over TLS iterations at four condition numbers, with red stars marking stopping iterations"
+  caption="A backward-error stopping criterion terminates the iteration once further work no longer improves the computed solution."
+/>
+
+Finally, one should not replace the estimator by a superficially similar LS heuristic. The simple
+quantity $\|\widetilde A^\top\widetilde r\|_2/\|\widetilde r\|_2$ can overestimate the true TLS
+backward error by many orders of magnitude as the condition number grows, whereas the sketched
+estimator remains close to the true value.
+
+<Figure
+  path="/assets/img/tls-backward-error-estimator-comparison.png"
+  alt="Estimation-to-true-value ratio for the sketched estimator and a simple estimator over increasing condition numbers"
+  caption="The sketched estimator remains accurate while a simple LS-inspired estimator can severely overestimate the TLS backward error."
+/>
+
+The main message is that the structural normal equation does more than characterize the TLS
+solution. It converts backward-error analysis into a modified LS geometry, produces an explicit
+optimal formula for stability analysis, and leads to deterministic and randomized estimators that
+are practical for large problems. Backward error can therefore serve both as a mathematical tool
+for understanding stability and as an inexpensive stopping criterion or accuracy certificate.
 
 ## 3. More than just backward error
