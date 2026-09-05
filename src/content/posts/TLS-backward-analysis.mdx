@@ -1,7 +1,7 @@
 ---
 title: 'Total least squares and its backward error'
 date: 2026-09-04
-description: 'why TLS, how to compute its backward error and some reflections.'
+description: 'Why TLS, how to compute its backward error, and some reflections.'
 tags:
   - 'Total least squares'
   - 'Backward error'
@@ -20,14 +20,18 @@ import Statement from '@components/Statement.astro';
 import Figure from '@components/Figure.astro';
 
 Total least squares (TLS) is often regarded as a natural extension of least squares (LS).
-While the latter has made fundamental influence in many areas thanks to its abundant theory and well-deveolped algorithms, the former is still attractive (but harder to solve) since it is more comprehensive with respect to considering all the errors in the data.
-For a single right-hand side system $[A,b]$<Sidenote number={1}>my papers deal with the general multidimensional case $[A,B]$ and consider weighting between two perturbations.</Sidenote>, where $A\in\mathbb{R}^{m\times n}(m \gg n)$ and $b\in\mathbb{R}^{m}$, 
-two problems are written as<Sidenote number={2}> Typically, we write LS as $\min_{x} \|Ax-b\|_{2}$. Here, we change to an equivalent form for comparison.</Sidenote>
+LS has had a profound influence in many fields, thanks to its rich theory and well-developed
+algorithms. TLS remains attractive—although harder to solve—because it accounts for errors in all
+the data. For a system with a single right-hand side, represented by
+$[A,b]$<Sidenote number={1}>My papers address the general multidimensional case $[A,B]$ and allow different weights for the two perturbations.</Sidenote>,
+where $A\in\mathbb{R}^{m\times n}$ with $m\gg n$ and $b\in\mathbb{R}^{m}$, the two problems can be
+written as follows:<Sidenote number={2}>Typically, we write LS as $\min_{x} \|Ax-b\|_{2}$. Here, we use an equivalent formulation to facilitate comparison.</Sidenote>
+
 $$
 \min_{\Delta A,\Delta b}
 \left\|
 \begin{bmatrix}
-\Delta A, \Delta b
+\Delta A & \Delta b
 \end{bmatrix}
 \right\|_{\mathrm F}
 \quad
@@ -46,27 +50,37 @@ $$
 Ax=b+\Delta b.
 \tag{LS}
 $$
-This viewpoint of 'natural extension' is compelling at the level of data modeling, and it also helps explain why statisticians were among the first to study them.
-Yet the analogy could be much less convincing as we will see.
-Despite a substantial body of theoretical work, we still lack TLS algorithms that simultaneously satisfy the practical requirements one would expect of a satisfactory numerical solver <Sidenote number={3} label="Explanation of a satisfactory numerical solver">By “satisfactory,” I mean methods that are fast in large-scale problems, remain reasonably accurate for at least moderately ill-conditioned problems, and are numerically stable.</Sidenote>.
+Viewing TLS as a natural extension of LS is compelling at the level of data modeling, and it also
+helps explain why statisticians were among the first to study the problem. Yet, as we will see, the
+analogy becomes much less convincing at the theoretical and computational levels. Despite a
+substantial body of theoretical work, we still lack TLS algorithms that simultaneously satisfy the
+practical requirements expected of a satisfactory numerical solver<Sidenote number={3} label="Explanation of a satisfactory numerical solver">By “satisfactory,” I mean methods that are fast for large-scale problems, remain reasonably accurate for at least moderately ill-conditioned problems, and are numerically stable.</Sidenote>.
 
-> A big motivation is: If we could solve a TLS as fast and well as solving an LS under the same data set, we should not hesitate to choose TLS in general.
+> A central motivation is: if we could solve a TLS problem as efficiently and reliably as the
+> corresponding LS problem on the same data, there would be little reason not to choose TLS.
 
-In my view, things are partly obscured by the way the subject has developed, and TLS indeed deserves more emphasis than it has received —— not simply through further abstraction, but through a reconsideration of which structures are actually useful for computation.
-One such perspective concerns backward error (see Section 2). 
+In my view, the way the subject has developed has partly obscured these computational issues. TLS
+deserves more emphasis than it has received—not simply through further abstraction, but through a
+reconsideration of which structures are genuinely useful for computation. One such perspective
+concerns backward error (see Section 2).
 
 In this post, I will outline some key ideas developed in my recent papers on
 [the connections and differences between LS and TLS](/publications/shan2025optimal/)
 and
 [efficient backward error estimation for multidimensional TLS](/publications/shan2026EfficientBE/),
 and offer a few reflections that may be useful for future work.
-## 1. From LS to TLS: are they essentially related and how?
-By relating to low-rank approximation, or [Eckart–Young–Mirsky theorem](https://en.wikipedia.org/wiki/Low-rank_approximation), one could understand that $[x_{\mathrm{TLS}};-1]$ is parallel to the right singular vector corresponding to the smallest singular value of $[A,b]$.
+
+## 1. From LS to TLS: Are they essentially related, and how?
+
+Through the connection with low-rank approximation—specifically, the
+[Eckart–Young–Mirsky theorem](https://en.wikipedia.org/wiki/Low-rank_approximation)—we find that
+$[x_{\mathrm{TLS}};-1]$ is parallel to the right singular vector associated with the smallest
+singular value of $[A,b]$.
 I will not repeat [basic results of TLS](https://doi.org/10.1137/0717073) here.
 Consider the singular value decomposition (SVD) of this augmented matrix
 $$
 \begin{bmatrix}
-A, b
+A & b
 \end{bmatrix}
 =
 U\Sigma V^\top,
@@ -79,28 +93,31 @@ v_{21}^\top & v_{22}
 $$
 
 where $v_{22}$ is a scalar.
-To guarantee the existence and uniqueness of a TLS solution, we assume the _genericity condition_ throughout this post
+To guarantee the existence and uniqueness of the TLS solution, we assume the _genericity condition_
+throughout this post:
 
 $$
 \sigma_n\left(
 \begin{bmatrix}
-A, b
+A & b
 \end{bmatrix}
 \right)
 >
 \sigma_{n+1}\left(
 \begin{bmatrix}
-A, b
+A & b
 \end{bmatrix}
 \right),
 \qquad
 v_{22}\neq 0.
 $$
 
-People derive, based on the above knowledge, a normal equation for TLS as $\bf \left(A^\top A-\sigma_{n+1}^{2}([A,b])I\right)x=A^\top b$, which I will call the _classical normal equation_.
-When it comes to LS, the normal equation is much more elegant as $\bf A^\top r=0$ where $r=b-Ax$ is the residual.
-If we want to potentially leverage LS thoery, we definitely need new results that can treat TLS as a modified LS.
-The following theorem achieves the goal by giving a _structural normal equation_, and more importantly, show the intrinsic quantities of TLS.
+From this characterization, one obtains the TLS normal equation
+$\left(A^\top A-\sigma_{n+1}^{2}([A,b])I\right)x=A^\top b$, which I will call the
+_classical normal equation_. For LS, the normal equation is much simpler as $A^\top r=0$, where
+$r=b-Ax$ is the residual. To leverage LS theory, we need results that treat TLS as a modified LS
+problem. The following theorem does so by providing a _structural normal equation_ and, more
+importantly, revealing the intrinsic quantities that govern TLS.
 
 <Statement
   type="theorem"
@@ -109,7 +126,8 @@ The following theorem achieves the goal by giving a _structural normal equation_
 >
 
 Suppose that the genericity condition above holds. Then
-$x\in\mathbb{R}^n$ is the true solution to the problem (TLS) if and only if the following two conditions hold:
+$x\in\mathbb{R}^n$ is the true solution of problem (TLS) if and only if the following two conditions
+hold:
 
 $$
 \left(A+bx^\top\right)^\top(Ax-b)=0,
@@ -123,14 +141,15 @@ $$
   0\neq y\in
   \mathcal{R}\left(
     \begin{bmatrix}
-      x;-1
+      x;
+      -1
     \end{bmatrix}
   \right)
 }}
 \frac{
   \left\|
     \begin{bmatrix}
-      A, b
+      A & b
     \end{bmatrix}y
   \right\|
 }{
@@ -149,7 +168,7 @@ $$
 \frac{
   \left\|
     \begin{bmatrix}
-      A, b
+      A & b
     \end{bmatrix}y
   \right\|
 }{
@@ -160,32 +179,11 @@ $$
 Here, $\mathcal{R}(M)$ denotes the range of $M$.
 
 </Statement>
-I shall present only the key parts of the proof which shed a light on the TLS structure. Extension to multidimensional cases is straightforward.
+
+I shall present only the key parts of the proof that shed light on the structure of TLS. The
+extension to the multidimensional case is straightforward.
+
 <Statement type="proof">
-
-Let the SVD of $\begin{bmatrix}A, b\end{bmatrix}$, with the singular values arranged in nonincreasing order, be
-$$
-\begin{bmatrix}
-A, b
-\end{bmatrix}
-=
-\left(
-\sum_{i=1}^{n}
-u_i\sigma_i v_i^\top
-\right)
-+
-u_{n+1}\sigma_{n+1}v_{n+1}^\top
-\coloneqq
-\begin{bmatrix}
-\widehat A, \widehat b
-\end{bmatrix}
-+
-u_{n+1}\sigma_{n+1}v_{n+1}^\top.
-$$
-
-Under the genericity condition, $x$ is the true solution of the TLS problem
-if and only if $\widehat A x-\widehat b=0$.
-
 Define
 
 $$
@@ -204,26 +202,27 @@ x\\
 \end{bmatrix}\left(I+x^\top x\right)^{-1/2}.
 $$
 
-It is straightforward to verify that $T_1^\top T_1=I_n, T_2^\top T_2=1, T_1^\top T_2=0$, and $T_1T_1^\top+T_2T_2^\top=I_{n+1}$.
+It is straightforward to verify that $T_1^\top T_1=I_n$, $T_2^\top T_2=1$,
+$T_1^\top T_2=0$, and $T_1T_1^\top+T_2T_2^\top=I_{n+1}$.
 
-Consequently, $\begin{bmatrix}T_1, T_2\end{bmatrix}$ is an orthogonal matrix. Now define
+Consequently, $\begin{bmatrix}T_1 & T_2\end{bmatrix}$ is an orthogonal matrix. Now define
 $$
 \widetilde A=\left(A+bx^\top\right)\left(I_n+xx^\top\right)^{-1/2}\coloneqq
 \begin{bmatrix}
-A, b
+A & b
 \end{bmatrix}T_1,
-\quad 
-\widetilde r=\frac{Ax-b}{\sqrt{1+x^\top x}}\coloneqq\begin{bmatrix}A, b
-\end{bmatrix}T_2 .
+\quad
+\widetilde r=\frac{Ax-b}{\sqrt{1+x^\top x}}\coloneqq\begin{bmatrix}A & b
+\end{bmatrix}T_2.
 $$
 
-The first condition in the theorem is equivalent to<Sidenote number={4}>It can be further reduced to (2.1a) by the invertibility of two auxiliary matrices (scalar).</Sidenote>
+The first condition in the theorem is equivalent to<Sidenote number={4}>It can be reduced further to (2.1a) because the auxiliary factors are invertible.</Sidenote>
 
 $$
 \widetilde A^\top\widetilde r=0,
 $$
 
-whereas the second condition is equivalent to<Sidenote number={5}> It will be helpful to think of $\|\widetilde r\|_2$ as $\sigma_{\mathrm{max}}(r)$.</Sidenote>
+whereas the second condition is equivalent to<Sidenote number={5}>It is helpful to view $\|\widetilde r\|_2$ as the largest singular value of $\widetilde r$.</Sidenote>
 
 $$
 \left\|\widetilde r\right\|_2
@@ -246,24 +245,28 @@ x\text{ is the true TLS solution}
 $$
 
 </Statement>
-It can be proven that there always exists a neighbourhood of $x_{\mathrm{TLS}}$ such that (2.1b) uniformly holds.
-This is a good news for iterative ideas. 
-One imprtant takeaway here is the _structural normal equation_, not exactly (2.1a), but 
+
+One can prove that there always exists a neighborhood of $x_{\mathrm{TLS}}$ in which (2.1b) holds
+uniformly. This is good news for iterative methods. One important takeaway is that the _structural
+normal equation_ is more naturally expressed not as (2.1a), but as
 $$
 \widetilde A^\top \widetilde r=0, \quad \mathrm{where} \quad \widetilde{A}=\left(A+bx^\top\right)\left(I_n+xx^\top\right)^{-1/2}, \widetilde{r}=\frac{Ax-b}{\sqrt{1+\|x\|^{2}}},
 $$
-which tells that TLS cares about a complicated coupling of $A,b$ and the solution $x$, rather than just making the residual orthogonal to a fixed plane.
-Such differences paralyze some famous techniques that play a significant role in making LS trustworthy, such as iterative refinement.
-But it is still worthy to ask under what conditions an LS solution will not be far away from the according TLS solution.
-I provide a perspective as follows.
+which shows that TLS involves a nontrivial coupling among $A$, $b$, and the solution $x$, rather
+than merely requiring the residual to be orthogonal to a fixed subspace. These differences prevent
+the direct application of some well-known techniques that play an important role in making LS
+reliable, such as iterative refinement. Nevertheless, it is worth asking under what conditions an
+LS solution remains close to the corresponding TLS solution.
 
 <Statement
   type="theorem"
   number="1.2"
-  title="Component-wise error of a backward stable LS solution to the true TLS solution"
+  title="Componentwise error between a backward stable LS solution and the true TLS solution"
 >
 
-Given a backward stable LS solution $\hat{x}$ to an overdetermined system $[A,b]$, the component-wise error of $x_{\mathrm{TLS}}$ to $\hat{x}$ with respect to the right singular vectors of $A$, is upper-bounded for $i=1,2,\ldots,n$ as
+Given a backward stable LS solution $\hat{x}$ to an overdetermined system $[A,b]$, the componentwise
+error between $x_{\mathrm{TLS}}$ and $\hat{x}$ along the right singular vectors of $A$ is bounded,
+for $i=1,2,\ldots,n$, as follows:
 
 $$
 \left|v_i^{\top}\left(\left(1-\frac{{\sigma_{n+1}([A,b])}^{2}}{\sigma_i(A)^{2}}\right)x_{\mathrm{TLS}}-\hat{x}\right)\right|
@@ -273,11 +276,16 @@ $$
 $$
 where $u$ is the unit roundoff. The notation $\lesssim$ means that the left-hand side is bounded above by $C(m,n)$ times the right-hand side for some low-degree polynomial $C(m,n)$.
 </Statement>
-Backward stability will be explained in details later. For readers who are not familiar, just think of a backward stable solution as a best candidate that we can ever expect from a numerical method.
 
-From the above, LS information can be exploited under certain conditions.
-Also, normal condition number, defined by the ratio between the maximum and minimum singular values of a matrix, fails to characterize the difficulty of a TLS system but spectral gap (or [effective condition number](https://link.springer.com/article/10.1007/BF01400115)) does.
-Specificlly, a small LS residual indicates a similar TLS solution, which shows that a TLS modeling is not very necessary for a relatively consistent system.
+Backward stability will be explained in detail later. Informally, a backward stable method returns
+the best kind of solution one can generally expect in finite precision.
+
+The result above shows that information from LS can be exploited under certain conditions. Moreover,
+the ordinary condition number, defined as the ratio of the largest to the smallest singular value of
+a matrix, does not fully characterize the difficulty of a TLS problem. The spectral gap, or the
+[effective condition number](https://link.springer.com/article/10.1007/BF01400115), is more
+informative. Specifically, a small LS residual indicates that the LS and TLS solutions are close,
+suggesting that a TLS model may be unnecessary for a relatively consistent system.
 
 <Statement
   type="proposition"
@@ -285,22 +293,25 @@ Specificlly, a small LS residual indicates a similar TLS solution, which shows t
   title="The residual of the LS solution matters"
 >
 
-Let $x_{\mathrm{LS}}$ be the LS solution and $r_{\mathrm{LS}}=b-Ax_{\mathrm{LS}}$ be its residual. 
-Denote $\kappa=\sigma_{\max}(A)/\sigma_{\min}(A)$ as the normal condition number of $A$ and follow the previous notation. 
-If there is a gap between $1$ and $\kappa\|r_{\mathrm{LS}}\|<1$, then the ratio $\sigma_{n+1}([A,b])/\sigma_n(A)$ is away from $1$.
+Let $x_{\mathrm{LS}}$ be the LS solution, and let $r_{\mathrm{LS}}=b-Ax_{\mathrm{LS}}$ be its
+residual. Define $\kappa=\sigma_{\max}(A)/\sigma_{\min}(A)$ as the condition number of $A$,
+and retain the preceding notation. If $\kappa\|r_{\mathrm{LS}}\|$ is less than and bounded away from
+$1$, then the ratio $\sigma_{n+1}([A,b])/\sigma_n(A)$ is also bounded away from $1$.
 
 </Statement>
 
-There are other gaps between these two problems. For example, preconditioning becomes delicate since shifts often appear in relevant systems.
-But I will stop here for the moment.
+There are other differences that need to be carefully considered between the solvers of these two problems. For example,
+[preconditioning becomes delicate](/publications/shan2025optimal/), but I will not pursue that
+topic here.
 
 ## 2. Backward error and its efficient computation
 
 Numerical algorithms run in finite precision, so even a mathematically correct method rarely returns
-the exact solution of the data supplied to it. A solver is called _backward stable_ if its computed
+the exact solution corresponding to the data supplied to it. A solver is called
+[_backward stable_](https://doi.org/10.1137/1.9780898718027.ch1) if its computed
 output is the exact solution of a nearby problem, with the required change in the input comparable
 to the rounding errors introduced during the computation. This point of view deliberately separates
-the behavior of the algorithm from the conditioning of the problem: a backward-stable answer can
+the behavior of the algorithm from the conditioning of the problem: a backward stable answer can
 still have a large forward error when the underlying problem is ill-conditioned.
 
 Backward stability is one reason to study the backward error of TLS. Before we can prove that a TLS
@@ -309,16 +320,15 @@ the following question:
 
 > How much must the original data be perturbed before $\widetilde x$ becomes an exact TLS solution?
 
-The question is especially natural for TLS because both $A$ and $b$ are already assumed to contain
-errors. A small backward error certifies that the computed answer solves a nearby problem of the
+A small backward error certifies that the computed answer solves a nearby problem of the
 same type, even when comparison with the unknown exact solution is impossible. For stability
-analysis we want an exact characterization; for actual solvers we also need a reliable estimate
+analysis, we want an exact characterization; for practical solvers, we also need a reliable estimate
 that is inexpensive enough to evaluate repeatedly. In large-scale problems, this second requirement
 leads naturally to randomized algorithms.
 
 <Statement type="definition" number="2.1" title="TLS backward error">
 
-For a computed approximation $\widetilde x\in\mathbb{R}^n$, define $\tau(\widetilde x)=\min_{E,f}\left\|\begin{bmatrix}E,\ f\end{bmatrix}\right\|_{\mathrm F}$
+For a computed approximation $\widetilde x\in\mathbb{R}^n$, define $\tau(\widetilde x)=\min_{E,f}\left\|\begin{bmatrix}E & f\end{bmatrix}\right\|_{\mathrm F}$
 subject to the structural normal equation for the perturbed data,
 $
 \left((A+E)+(b+f)\widetilde x^\top\right)^\top
@@ -331,8 +341,9 @@ The normalized quantity $\tau(\widetilde x)/\|[A,b]\|_{\mathrm F}$ measures the 
 relative change to the data. In the usual normwise sense, a TLS algorithm is backward stable when
 this ratio is bounded by a modest dimension-dependent constant times the unit roundoff $u$.
 
-The apparently nonlinear minimization above has a concise closed form (Theorem 2.2). 
-Define the two quantities already shown in Section 1, namely, the modified matrix and scaled residual, up to the harmless choice of sign,
+The apparently nonlinear minimization above has a concise closed-form expression. Recall the two quantities
+introduced in Section 1, the modified matrix and the scaled residual, allowing for a harmless choice
+of sign:
 $$
 \widetilde A
 =
@@ -345,26 +356,28 @@ $$
 {\sqrt{1+\|\widetilde x\|_2^2}}.
 $$
 
-<Statement type="theorem" number="2.2" title="Explicit formula for the optimal TLS backward error ">
+<Statement type="theorem" number="2.2" title="Explicit formula for the optimal TLS backward error">
 
 Let $\lambda=\lambda_{\min}\!\left(\widetilde A\widetilde A^\top-\widetilde r\widetilde r^\top\right)$.
-Then $\tau(\widetilde x)=\left[\|\widetilde r\|_2^2+\min\{0,\lambda\}\right]^{1/2}.$
+Then $\tau(\widetilde x)=\left[\|\widetilde r\|_2^2+\min\{0,\lambda\}\right]^{1/2}$.
 
 </Statement>
 
-I recommend that readers who are interested in the proof do not omit the Appendix of the original paper.
+I recommend that readers interested in the proof consult the appendix of the original paper.
 The formula separates two effects. The first term measures the scaled residual, while the
 eigenvalue correction detects whether a coupled perturbation of $A$ and $b$ can make
 $\widetilde x$ an exact TLS solution more cheaply than correcting the residual alone. This is why
 $\|b-A\widetilde x\|_2$ by itself is not a reliable TLS certificate.
 
-There is nevertheless a computational problem: evaluating $\lambda$ directly involves an
-$m\times m$ eigenvalue problem. For a tall data matrix with $m\gg n$, the exact formula is therefore not useful as an implementation.
+There is nevertheless a computational challenge: evaluating $\lambda$ directly involves an
+$m\times m$ eigenvalue problem. For a tall data matrix with $m\gg n$, the exact formula is therefore
+impractical to evaluate directly.
 
-<Statement type="theorem" number="2.3" title="A tight certain estimate">
+<Statement type="theorem" number="2.3" title="A tight deterministic estimate">
 
-For every computed approximation $\widetilde x$, define 
-$\widetilde\tau(\widetilde x)=\left\|\left(\widetilde A^\top\widetilde A+\|\widetilde r\|^2 I\right)^{-1/2}\widetilde A^\top\widetilde r\right\|$, then
+For every computed approximation $\widetilde x$, define
+$\widetilde\tau(\widetilde x)=\left\|\left(\widetilde A^\top\widetilde A+\|\widetilde r\|^2 I\right)^{-1/2}\widetilde A^\top\widetilde r\right\|$.
+Then
 $$
 \widetilde\tau(\widetilde x)\leq\tau(\widetilde x)\leq\sqrt{2}\,\widetilde\tau(\widetilde x).
 $$
@@ -372,8 +385,8 @@ $$
 </Statement>
 
 Hence $\widetilde\tau$ is not a heuristic: it approximates the optimal backward error to
-within a factor of $\sqrt{2}$. If
-$\widetilde A=U\Sigma V^\top$, it can also be evaluated without explicitly forming a matrix
+within a factor of $\sqrt{2}$. If $\widetilde A=U\Sigma V^\top$, the estimate can also be evaluated
+without explicitly forming a matrix
 inverse square root:
 
 $$
@@ -387,8 +400,9 @@ $$
 
 This already avoids an $m\times m$ eigendecomposition, but forming a full factorization of
 $\widetilde A$ may still be expensive when the number of observations is very large.
-Randomized sketching gives one more reduction. 
-Let $S\in\mathbb{R}^{s\times m}$ be a [subspace embedding](https://ar5iv.labs.arxiv.org/html/2002.01387) for the columns of $[A,b]$ with distortion $\varepsilon\in(0,1)$, and define
+Randomized sketching reduces the cost further. Let $S\in\mathbb{R}^{s\times m}$ be a
+[subspace embedding](https://ar5iv.labs.arxiv.org/html/2002.01387) for the columns of $[A,b]$ with
+distortion $\varepsilon\in(0,1)$, and define
 
 $$
 \widetilde\tau^{\mathrm{sk}}(\widetilde x)
@@ -403,7 +417,7 @@ $$
 \right\|.
 $$
 
-The sketch preserves a rigorous certificate:
+The sketched quantity retains rigorous guarantees:
 
 $$
 (1-\varepsilon)\widetilde\tau^{\mathrm{sk}}(\widetilde x)
@@ -414,18 +428,20 @@ $$
 \widetilde\tau^{\mathrm{sk}}(\widetilde x).
 $$
 
-With a sparse sign embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and never forms a large matrix. 
+With a sparse sign embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and
+never forms an $m\times m$ matrix.
 The factor $\left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2}$ is only a rank-one update of the
-identity, so $\widetilde A$ can also be formed efficiently. 
+identity, so $\widetilde A$ can also be formed efficiently.
 
 > MATLAB implementations of the estimators and the scripts used for the experiments below are available in the
 [mTLS Efficient Backward Error Estimate code repository](https://github.com/JudyShan/mTLS-Efficient-Backward-Error-Estimate).
 
-The following experiment uses $m=3000$, $n=20$, and 200 random problems at each of three condition
-numbers. The horizontal axis is the exact backward error divided by its estimate. The blue
-distributions correspond to $\tau/\widetilde\tau$, which theory places between $1$ and $\sqrt{2}$; 
-the orange distributions use the sketched estimate. In the top row, which is the vector case studied
-in this post, the ratios remain tightly concentrated even as $\kappa(A)$ increases from $10^8$ to $10^{16}$.
+The following experiment uses $m=3000$, $n=20$, and 200 random problems for each of three condition
+numbers. The horizontal axis shows the exact backward error divided by its estimate. The blue
+distributions correspond to $\tau/\widetilde\tau$, which the theory places between $1$ and
+$\sqrt{2}$; the orange distributions use the sketched estimate. In the top row, corresponding to the
+vector case studied in this post, the ratios remain tightly concentrated even as $\kappa(A)$
+increases from $10^8$ to $10^{16}$.
 
 <Figure
   path="/assets/img/tls-backward-error-tightness.png"
@@ -445,7 +461,7 @@ exact $m\times m$ eigenvalue formula.
   caption="Runtime of the sketched estimator as the problem dimensions vary."
 />
 
-Till now, TLS backward error can serve both as a mathematical tool for understanding stability
+Thus, TLS backward error can serve both as a mathematical tool for understanding stability
 and as an inexpensive stopping criterion or accuracy certificate within an algorithm.
 
 ## 3. More than just backward error
@@ -453,16 +469,15 @@ and as an inexpensive stopping criterion or accuracy certificate within an algor
 The previous section treats backward error as a number: $\tau(x)$ tells us how far a computed
 iterate is from satisfying the defining structure of TLS. The _optimal perturbation_ contains more
 information. Its geometry reveals exactly which components of the augmented matrix must be removed,
-and this turns backward analysis from a passive certificate into a possible guide for designing an (iterative) algorithm.
+turning backward analysis from a passive certificate into a possible guide for designing iterative algorithms.
 
-For a current iterate $x$, write
-
+For clarity, we assume throughout this section that condition (2.1b) holds.
+Given a current iterate $x$, write
 $$
-C=\begin{bmatrix}A,b\end{bmatrix},
+C=\begin{bmatrix}A & b\end{bmatrix},
 \qquad
-G=\begin{bmatrix}E,f\end{bmatrix},
+G=\begin{bmatrix}E & f\end{bmatrix},
 $$
-
 and reuse the orthogonal factors introduced in Section 1:
 
 $$
@@ -482,12 +497,13 @@ x\\
 $$
 
 Here, $T_2=y$ spans the direction determined by the current iterate, while the columns of $T_1$
-form an orthonormal basis for $y^\perp$. This decomposition splits every perturbation into two independent pieces:
+form an orthonormal basis for $y^\perp$. This decomposition splits every perturbation into two
+orthogonal components:
 
 $$
 \|G\|_{\mathrm F}^2
 =
-\left\|G\begin{bmatrix}T_1,T_2\end{bmatrix}\right\|_{\mathrm F}^2
+\left\|G\begin{bmatrix}T_1 & T_2\end{bmatrix}\right\|_{\mathrm F}^2
 =
 \|GT_1\|_{\mathrm F}^2+\|GT_2\|_2^2.
 $$
@@ -519,7 +535,7 @@ $$
 P_z(C+G_*)(I-yy^\top)=0.
 $$
 
-Consequently, $y$ and $z$ are respectively a right and a left singular vector of the perturbed
+Consequently, $y$ and $z$ are a right and a left singular vector, respectively, of the perturbed
 matrix $C+G_*$.
 
 </Statement>
@@ -527,8 +543,7 @@ matrix $C+G_*$.
 The figure below visualizes the two equivalent viewpoints. Panel (a) shows how a direction $y$ that
 is not initially a singular direction of $C$ becomes part of a singular pair for $C+G_*$. Panel (b)
 shows the construction more explicitly: $G_*$ removes the component of $Cy$ in $z^\perp$ and the
-component of $C(y^\perp)$ along $z$. These are precisely the two mutually orthogonal terms in
-(3.7).
+component of $C(y^\perp)$ along $z$.
 
 <Figure
   path="/assets/img/tls-backward-error-geometry.png"
@@ -540,3 +555,5 @@ This gives a more constructive interpretation of backward error. The vector $z$ 
 perturbation $G_*$ determine one another, while the iterate $x$ determines the normalized direction
 $y$. Rather than merely asking whether $x$ has a small backward error, one can ask how to update
 $x$, $z$, and the two projection corrections so that the required perturbation shrinks.
+This idea can inform the design of shifts in corrected inverse iteration methods when TLS is treated
+as a singular value problem.
