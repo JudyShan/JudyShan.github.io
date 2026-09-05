@@ -16,9 +16,10 @@ hidden: false
 draft: false
 ---
 import Sidenote from '@components/Sidenote.astro';
+import Statement from '@components/Statement.astro';
 
 Total least squares (TLS) is often regarded as a natural extension of least squares (LS).
-For $A\in\mathbb{R}^{m\times n}(m \ll n)$ and $b\in\mathbb{R}^{m}$,
+For single right-hand side system $[A,b]$ (my papers deal with the general multidimensional case), where $A\in\mathbb{R}^{m\times n}(m \ll n)$ and $b\in\mathbb{R}^{m}$,
 $$
 \min_{E,f}
 \left\|
@@ -29,7 +30,7 @@ E & f
 \quad
 \text{subject to}
 \quad
-(A+E)x=b+f.
+(A+E)x=b+f,
 \tag{TLS}
 $$
 
@@ -48,13 +49,89 @@ Yet the analogy could be much less straightforward as we will see.
 Despite a substantial body of theoretical work, we still lack TLS algorithms that simultaneously satisfy the practical requirements one would expect of a satisfactory numerical solver <Sidenote number={1} label="Explanation of a satisfactory numerical solver">By “satisfactory,” I mean methods that are fast in large-scale problems, remain reasonably accurate for at least moderately ill-conditioned problems, and are numerically stable.</Sidenote>.
 In my view, this gap is partly obscured by the way the subject has developed, and TLS indeed deserves more emphasis than it has received —— not simply through further abstraction, but through a reconsideration of which structures are actually useful for computation.
 
-One such viewpoint concerns backward error. 
+One such viewpoint concerns backward error (definition in Section 2). 
 In this post, I will begin by laying out the ideas developed in my recent papers and leave some reflections that could be of help in the future.
 
-## 1. From LS to TLS: are they closely related?
+## 1. From LS to TLS: are they essentially related?
+Let \(A\in\mathbb{R}^{m\times n}\) and \(b\in\mathbb{R}^m\), and consider the singular value decomposition
 
+$$
+\begin{bmatrix}
+A & b
+\end{bmatrix}
+=
+U\Sigma V^\top,
+\qquad
+V=
+\begin{bmatrix}
+V_{11} & v_{12}\\
+v_{21}^\top & v_{22}
+\end{bmatrix},
+$$
 
+where \(v_{22}\) is a scalar. We assume the genericity condition
 
+$$
+\sigma_n\left(
+\begin{bmatrix}
+A & b
+\end{bmatrix}
+\right)
+>
+\sigma_{n+1}\left(
+\begin{bmatrix}
+A & b
+\end{bmatrix}
+\right),
+\qquad
+v_{22}\neq 0.
+$$
+
+</Statement>
+
+<Statement
+  type="theorem"
+  number="1.1"
+  title="Necessary and sufficient conditions for the TLS solution"
+>
+
+Suppose that the genericity condition above holds. Then
+\(x\in\mathbb{R}^n\) is the true solution to the problem (TLS) if and only if the following two conditions hold:
+
+$$
+\left(A+bx^\top\right)^\top(Ax-b)=0,
+\tag{2.1a}
+$$
+
+and
+
+$$
+\frac{\lVert Ax-b\rVert_2}
+     {\sqrt{1+\lVert x\rVert_2^2}}
+<
+\min_{\substack{
+  0\neq y\in
+  \mathcal{R}\left(
+    \begin{bmatrix}
+      I_n\\
+      x^\top
+    \end{bmatrix}
+  \right)
+}}
+\frac{
+  \left\|
+    \begin{bmatrix}
+      A & b
+    \end{bmatrix}y
+  \right\|_2
+}{
+  \lVert y\rVert_2
+}.
+\tag{2.1b}
+$$
+Here, \(\mathcal{R}(M)\) denotes the range of \(M\).
+
+</Statement>
 
 ## 2. Backward error and its efficient computation
 
