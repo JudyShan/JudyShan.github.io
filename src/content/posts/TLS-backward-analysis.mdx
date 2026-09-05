@@ -380,15 +380,14 @@ $$
 =
 \sum_{i=1}^{n}
 \frac{\sigma_i^2}
-{\sigma_i^2+\|\widetilde r\|_2^2}
+{\sigma_i^2+\|\widetilde r\|^2}
 \left(u_i^\top\widetilde r\right)^2.
-\tag{2.6}
 $$
 
 This already avoids an $m\times m$ eigendecomposition, but forming a full factorization of
 $\widetilde A$ may still be expensive when the number of observations is very large.
-Randomized sketching gives one more reduction. Let $S\in\mathbb{R}^{s\times m}$ be a subspace
-embedding for the columns of $[A,b]$ with distortion $\varepsilon\in(0,1)$, and define
+Randomized sketching gives one more reduction. 
+Let $S\in\mathbb{R}^{s\times m}$ be a [subspace embedding](https://ar5iv.labs.arxiv.org/html/2002.01387) for the columns of $[A,b]$ with distortion $\varepsilon\in(0,1)$, and define
 
 $$
 \widetilde\tau^{\mathrm{sk}}(\widetilde x)
@@ -397,11 +396,10 @@ $$
 \left(
 (S\widetilde A)^\top(S\widetilde A)
 +
-\|\widetilde r\|_2^2 I_n
+\|\widetilde r\|^2 I
 \right)^{-1/2}
 \widetilde A^\top\widetilde r
-\right\|_2.
-\tag{2.7}
+\right\|.
 $$
 
 The sketch preserves a rigorous certificate:
@@ -416,19 +414,18 @@ $$
 \tag{2.8}
 $$
 
-With a sparse embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and never
-forms the large matrix in (2.3). The factor
-$\left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2}$ is only a rank-one update of the
-identity, so $\widetilde A$ can also be formed efficiently. MATLAB implementations of the estimators
-and the scripts used for the experiments below are available in the
+With a sparse sign embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and never forms a large matrix. 
+The factor $\left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2}$ is only a rank-one update of the
+identity, so $\widetilde A$ can also be formed efficiently. 
+
+> MATLAB implementations of the estimators and the scripts used for the experiments below are available in the
 [mTLS Efficient Backward Error Estimate code repository](https://github.com/JudyShan/mTLS-Efficient-Backward-Error-Estimate).
 
 The following experiment uses $m=3000$, $n=20$, and 200 random problems at each of three condition
 numbers. The horizontal axis is the exact backward error divided by its estimate. The blue
-distributions correspond to $\tau/\widetilde\tau$, which theory places between $1$ and $\sqrt{2}$;
+distributions correspond to $\tau/\widetilde\tau$, which theory places between $1$ and $\sqrt{2}$; 
 the orange distributions use the sketched estimate. In the top row, which is the vector case studied
-in this post, the ratios remain tightly concentrated even as $\kappa(A)$ increases from $10^8$ to
-$10^{16}$. The bottom row shows the analogous behavior for ten right-hand sides.
+in this post, the ratios remain tightly concentrated even as $\kappa(A)$ increases from $10^8$ to $10^{16}$.
 
 <Figure
   path="/assets/img/tls-backward-error-tightness.png"
@@ -448,22 +445,7 @@ exact $m\times m$ eigenvalue formula.
   caption="Runtime of the sketched estimator as the problem dimensions vary."
 />
 
-An efficient certificate can also influence the design of the solver itself. In the next experiment,
-the backward-error estimate is used to stop an iterative TLS method once it reaches the scale of
-machine precision. The red stars mark the selected stopping iterations. Continuing afterward gives
-essentially no improvement, so the certificate avoids unnecessary iterations while preserving the
-attained accuracy.
-
-<Figure
-  path="/assets/img/tls-backward-error-stopping.png"
-  alt="Backward error over TLS iterations at four condition numbers, with red stars marking stopping iterations"
-  caption="A backward-error stopping criterion terminates the iteration once further work no longer improves the computed solution."
-/>
-
-The main message is that the structural normal equation does more than characterize the TLS
-solution. It converts backward-error analysis into a modified LS geometry, produces an explicit
-optimal formula for stability analysis, and leads to deterministic and randomized estimators that
-are practical for large problems. Backward error can therefore serve both as a mathematical tool
-for understanding stability and as an inexpensive stopping criterion or accuracy certificate.
+Till now, TLS backward error can therefore serve both as a mathematical tool for understanding stability 
+and as an inexpensive stopping criterion or accuracy certificate within an algorithm.
 
 ## 3. More than just backward error
