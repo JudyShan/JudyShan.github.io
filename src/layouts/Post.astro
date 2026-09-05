@@ -507,6 +507,27 @@ const jsonLd = {
     max-width: var(--article-max-width);
   }
 
+  /* Give long-form posts a clearer vertical rhythm without affecting headings
+     inside statement components or figures placed in image grids. */
+  #post-content > h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  #post-content > h3 {
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+  }
+
+  #post-content > figure {
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  #post-content > figure > figcaption {
+    margin-top: 0.75rem;
+  }
+
   /* TikZJax processes <script type="text/tikz"> elements asynchronously (WASM).
      Show a subtle "Loading diagram…" placeholder while the WASM pipeline runs.
      Once tikzjax replaces the element with an <svg>, this rule no longer applies. */

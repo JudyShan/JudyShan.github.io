@@ -787,6 +787,9 @@ State the result here. Inline mathematics uses `$...$`; display mathematics uses
 </Statement>
 ```
 
+Statements with `type="proof"` are collapsed by default. Readers can click the **Proof**
+heading to expand or collapse the argument; no additional MDX markup is required.
+
 Set `features.statements` to `false` to keep the semantic heading and content without
 the colored box styling.
 

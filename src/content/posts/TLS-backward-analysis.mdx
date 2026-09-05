@@ -291,7 +291,8 @@ If there is a gap between $1$ and $\kappa\|r_{\mathrm{LS}}\|<1$, then the ratio 
 
 </Statement>
 
-There are other gaps between these two problems.
+There are other gaps between these two problems. For example, preconditioning becomes delicate since shifts often appear in relevant systems.
+But I will stop here for the moment.
 
 ## 2. Backward error and its efficient computation
 
@@ -411,7 +412,6 @@ $$
 \leq
 \sqrt{2}(1+\varepsilon)
 \widetilde\tau^{\mathrm{sk}}(\widetilde x).
-\tag{2.8}
 $$
 
 With a sparse sign embedding, the resulting procedure has complexity $\mathcal{O}(mn\log n)$ and never forms a large matrix. 
@@ -445,7 +445,98 @@ exact $m\times m$ eigenvalue formula.
   caption="Runtime of the sketched estimator as the problem dimensions vary."
 />
 
-Till now, TLS backward error can therefore serve both as a mathematical tool for understanding stability 
+Till now, TLS backward error can serve both as a mathematical tool for understanding stability
 and as an inexpensive stopping criterion or accuracy certificate within an algorithm.
 
 ## 3. More than just backward error
+
+The previous section treats backward error as a number: $\tau(x)$ tells us how far a computed
+iterate is from satisfying the defining structure of TLS. The _optimal perturbation_ contains more
+information. Its geometry reveals exactly which components of the augmented matrix must be removed,
+and this turns backward analysis from a passive certificate into a possible guide for designing an (iterative) algorithm.
+
+For a current iterate $x$, write
+
+$$
+C=\begin{bmatrix}A,b\end{bmatrix},
+\qquad
+G=\begin{bmatrix}E,f\end{bmatrix},
+$$
+
+and reuse the orthogonal factors introduced in Section 1:
+
+$$
+T_1=
+\begin{bmatrix}
+I_n\\
+x^\top
+\end{bmatrix}
+\left(I_n+xx^\top\right)^{-1/2},
+\qquad
+T_2=y=
+\frac{1}{\sqrt{1+\|x\|_2^2}}
+\begin{bmatrix}
+x\\
+-1
+\end{bmatrix}.
+$$
+
+Here, $T_2=y$ spans the direction determined by the current iterate, while the columns of $T_1$
+form an orthonormal basis for $y^\perp$. This decomposition splits every perturbation into two independent pieces:
+
+$$
+\|G\|_{\mathrm F}^2
+=
+\left\|G\begin{bmatrix}T_1,T_2\end{bmatrix}\right\|_{\mathrm F}^2
+=
+\|GT_1\|_{\mathrm F}^2+\|GT_2\|_2^2.
+$$
+
+At the same time, the structural normal equation becomes
+$$
+\left((C+G)T_1\right)^\top(C+G)T_2=0.
+$$
+
+Thus the backward error problem asks for the smallest change that makes the image of the
+one-dimensional direction $y$ orthogonal to the image of its entire orthogonal complement.
+
+<Statement type="proposition" number="3.1" title="Geometry of the optimal perturbation">
+
+Let $G_*$ be an optimal perturbation for the current iterate $x$. Then there is a unit vector
+$z\in\mathbb{R}^m$, with $P_z=zz^\top$, such that
+
+$$
+G_*T_2=-(I-P_z)CT_2,
+\qquad
+G_*T_1=-P_zCT_1.
+$$
+
+Equivalently,
+
+$$
+(I-P_z)(C+G_*)y=0,
+\qquad
+P_z(C+G_*)(I-yy^\top)=0.
+$$
+
+Consequently, $y$ and $z$ are respectively a right and a left singular vector of the perturbed
+matrix $C+G_*$.
+
+</Statement>
+
+The figure below visualizes the two equivalent viewpoints. Panel (a) shows how a direction $y$ that
+is not initially a singular direction of $C$ becomes part of a singular pair for $C+G_*$. Panel (b)
+shows the construction more explicitly: $G_*$ removes the component of $Cy$ in $z^\perp$ and the
+component of $C(y^\perp)$ along $z$. These are precisely the two mutually orthogonal terms in
+(3.7).
+
+<Figure
+  path="/assets/img/tls-backward-error-geometry.png"
+  alt="Geometric interpretation of the optimal TLS perturbation, showing how two projections are removed to turn the iterate direction into a singular-vector pair"
+  caption="Geometry of the optimal TLS perturbation."
+/>
+
+This gives a more constructive interpretation of backward error. The vector $z$ and the optimal
+perturbation $G_*$ determine one another, while the iterate $x$ determines the normalized direction
+$y$. Rather than merely asking whether $x$ has a small backward error, one can ask how to update
+$x$, $z$, and the two projection corrections so that the required perturbation shrinks.
