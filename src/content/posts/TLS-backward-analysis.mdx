@@ -315,29 +315,14 @@ analysis we want an exact characterization; for actual solvers we also need a re
 that is inexpensive enough to evaluate repeatedly. In large-scale problems, this second requirement
 leads naturally to randomized algorithms.
 
-### 2.1 An optimal backward error
-
 <Statement type="definition" number="2.1" title="TLS backward error">
 
-For a computed approximation $\widetilde x\in\mathbb{R}^n$, define
-
-$$
-\tau(\widetilde x)
-=
-\min_{E,f}
-\left\|
-\begin{bmatrix}
-E,\ f
-\end{bmatrix}
-\right\|_{\mathrm F}
-$$
-
+For a computed approximation $\widetilde x\in\mathbb{R}^n$, define $\tau(\widetilde x)=\min_{E,f}\left\|\begin{bmatrix}E,\ f\end{bmatrix}\right\|_{\mathrm F}$
 subject to the structural normal equation for the perturbed data,
-
-$$
+$
 \left((A+E)+(b+f)\widetilde x^\top\right)^\top
 \left((A+E)\widetilde x-(b+f)\right)=0.
-$$
+$
 
 </Statement>
 
@@ -345,104 +330,42 @@ The normalized quantity $\tau(\widetilde x)/\|[A,b]\|_{\mathrm F}$ measures the 
 relative change to the data. In the usual normwise sense, a TLS algorithm is backward stable when
 this ratio is bounded by a modest dimension-dependent constant times the unit roundoff $u$.
 
-Strictly speaking, the second, spectral-separation condition in Theorem 1.1 must also hold before
-$\widetilde x$ is the global TLS solution of the nearby problem. The definition above uses the
-relaxed feasible set determined by the structural normal equation. This relaxation is useful rather
-than merely convenient: as $\widetilde x$ approaches the true TLS solution, the optimal perturbation
-obtained from this set also satisfies the missing separation condition. Thus the relaxed backward
-error is asymptotically the genuine one near the solution.
-
-The apparently nonlinear minimization above has a concise closed form. Define the two intrinsic
-quantities
-
+The apparently nonlinear minimization above has a concise closed form (Theorem 2.2). 
+Define the two quantities already shown in Section 1, namely, the modified matrix and scaled residual, up to the harmless choice of sign,
 $$
 \widetilde A
 =
 \left(A+b\widetilde x^\top\right)
 \left(I_n+\widetilde x\widetilde x^\top\right)^{-1/2},
-\qquad
+\quad
 \widetilde r
 =
 \frac{b-A\widetilde x}
 {\sqrt{1+\|\widetilde x\|_2^2}}.
-\tag{2.2}
 $$
 
-These are precisely the modified matrix and scaled residual that appeared in Section 1, up to the
-harmless choice of sign for the residual.
+<Statement type="theorem" number="2.2" title="Explicit formula for the optimal TLS backward error ">
 
-<Statement type="theorem" number="2.2" title="Optimal backward-error formula">
-
-Let
-
-$$
-\lambda
-=
-\lambda_{\min}\!\left(
-\widetilde A\widetilde A^\top
--
-\widetilde r\widetilde r^\top
-\right).
-$$
-
-Then the optimal backward error is
-
-$$
-\boxed{
-\tau(\widetilde x)
-=
-\left[
-\|\widetilde r\|_2^2
-+
-\min\{0,\lambda\}
-\right]^{1/2}
-}.
-\tag{2.3}
-$$
+Let $\lambda=\lambda_{\min}\!\left(\widetilde A\widetilde A^\top-\widetilde r\widetilde r^\top\right)$.
+Then $\tau(\widetilde x)=\left[\|\widetilde r\|_2^2+\min\{0,\lambda\}\right]^{1/2}.$
 
 </Statement>
 
-Formula (2.3) separates two effects. The first term measures the scaled residual, while the
+I recommend that readers who are interested in the proof do not omit the Appendix of the original paper.
+The formula separates two effects. The first term measures the scaled residual, while the
 eigenvalue correction detects whether a coupled perturbation of $A$ and $b$ can make
 $\widetilde x$ an exact TLS solution more cheaply than correcting the residual alone. This is why
 $\|b-A\widetilde x\|_2$ by itself is not a reliable TLS certificate.
 
 There is nevertheless a computational problem: evaluating $\lambda$ directly involves an
-$m\times m$ eigenvalue problem. For a tall data matrix with $m\gg n$, the exact formula is therefore
-more useful as a theoretical characterization than as an implementation.
+$m\times m$ eigenvalue problem. For a tall data matrix with $m\gg n$, the exact formula is therefore not useful as an implementation.
 
-### 2.2 A computable estimate
+<Statement type="theorem" number="2.3" title="A tight certain estimate">
 
-The large eigenvalue problem can be replaced by the following quantity involving only an
-$n\times n$ positive-definite matrix:
-
+For every computed approximation $\widetilde x$, define 
+$\widetilde\tau(\widetilde x)=\left\|\left(\widetilde A^\top\widetilde A+\|\widetilde r\|^2 I\right)^{-1/2}\widetilde A^\top\widetilde r\right\|$, then
 $$
-\widetilde\tau(\widetilde x)
-=
-\left\|
-\left(
-\widetilde A^\top\widetilde A
-+
-\|\widetilde r\|_2^2 I_n
-\right)^{-1/2}
-\widetilde A^\top\widetilde r
-\right\|_2.
-\tag{2.4}
-$$
-
-<Statement type="theorem" number="2.3" title="A tight computable estimate">
-
-For every computed approximation $\widetilde x$,
-
-$$
-\boxed{
-\widetilde\tau(\widetilde x)
-\leq
-\tau(\widetilde x)
-\leq
-\sqrt{2}\,\widetilde\tau(\widetilde x)
-}.
-\tag{2.5}
+\widetilde\tau(\widetilde x)\leq\tau(\widetilde x)\leq\sqrt{2}\,\widetilde\tau(\widetilde x).
 $$
 
 </Statement>
@@ -500,8 +423,6 @@ identity, so $\widetilde A$ can also be formed efficiently. MATLAB implementatio
 and the scripts used for the experiments below are available in the
 [mTLS Efficient Backward Error Estimate code repository](https://github.com/JudyShan/mTLS-Efficient-Backward-Error-Estimate).
 
-### 2.3 Are the bounds tight in practice?
-
 The following experiment uses $m=3000$, $n=20$, and 200 random problems at each of three condition
 numbers. The horizontal axis is the exact backward error divided by its estimate. The blue
 distributions correspond to $\tau/\widetilde\tau$, which theory places between $1$ and $\sqrt{2}$;
@@ -515,7 +436,6 @@ $10^{16}$. The bottom row shows the analogous behavior for ten right-hand sides.
   caption="Tightness of the deterministic and sketched estimates. The green and red dashed lines mark 1 and the factor sqrt(2), respectively."
 />
 
-### 2.4 Efficiency and use as a stopping criterion
 
 The runtime grows approximately linearly with $n$ for fixed $m$. The left panel below is the vector
 case; the remaining panels show that the same scaling persists for multiple right-hand sides. This
@@ -538,17 +458,6 @@ attained accuracy.
   path="/assets/img/tls-backward-error-stopping.png"
   alt="Backward error over TLS iterations at four condition numbers, with red stars marking stopping iterations"
   caption="A backward-error stopping criterion terminates the iteration once further work no longer improves the computed solution."
-/>
-
-Finally, one should not replace the estimator by a superficially similar LS heuristic. The simple
-quantity $\|\widetilde A^\top\widetilde r\|_2/\|\widetilde r\|_2$ can overestimate the true TLS
-backward error by many orders of magnitude as the condition number grows, whereas the sketched
-estimator remains close to the true value.
-
-<Figure
-  path="/assets/img/tls-backward-error-estimator-comparison.png"
-  alt="Estimation-to-true-value ratio for the sketched estimator and a simple estimator over increasing condition numbers"
-  caption="The sketched estimator remains accurate while a simple LS-inspired estimator can severely overestimate the TLS backward error."
 />
 
 The main message is that the structural normal equation does more than characterize the TLS
