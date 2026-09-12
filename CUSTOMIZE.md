@@ -433,7 +433,9 @@ Books are grouped by year read (most recent first). Books without dates go in a 
 
 ## 9a. Miscellany
 
-The top navigation can point to `/miscellany/` for visits, summer schools, hobbies, short notes, and photo-based memories.
+The top navigation points to `/miscellany/` for visits, summer schools, hobbies, short notes, and
+photo-based memories. Remove or comment out the corresponding item in `site.navbar.items` to hide
+the page from the navigation without deleting its content.
 
 Create `.md` or `.mdx` files in `src/content/miscellany/`:
 
@@ -441,11 +443,15 @@ Create `.md` or `.mdx` files in `src/content/miscellany/`:
 ---
 title: 'Summer School at Example Institute'
 date: 2026-07-15
+section: academic # academic timeline; use hobbies for an image card
 description: 'A one-sentence summary shown below the title.'
 category: summer school
 location: 'Example Institute'
-image: /assets/img/miscellany/summer-school.jpg
-imageAlt: 'Group photo at the summer school'
+images:
+  - src: /assets/img/miscellany/summer-school-group.jpg
+    alt: 'Group photo at the summer school'
+  - src: /assets/img/miscellany/summer-school-talk.jpg
+    alt: 'Giving a talk at the summer school'
 links:
   - label: Program
     url: https://example.edu/program
@@ -458,7 +464,14 @@ hidden: false
 Write a short note here. Markdown links and paragraphs are supported.
 ```
 
-Put images in `public/assets/img/miscellany/` and link to them with `/assets/img/miscellany/file.jpg`.
+Put images in `public/assets/img/miscellany/` and list them under `images` in display order. A single
+image is displayed without controls. Two or more images become a carousel with previous/next
+buttons, position dots, and touch or trackpad swiping. Every image requires concise `alt` text that
+describes the image for readers using assistive technology.
+
+Items with `section: hobbies` appear as image-led cards in **Outside Academia**. Items with
+`section: academic` appear chronologically in the **Academic Journey** timeline. Page and section
+labels are configured under `miscellany` in `src/config/site.ts`.
 
 Use `hidden: true` to keep an item as a draft/template without showing it on the page.
 

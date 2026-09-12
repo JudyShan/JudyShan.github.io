@@ -210,6 +210,8 @@ const miscellany = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    /** Visual section in which the item appears. */
+    section: z.enum(['hobbies', 'academic']),
     /** Optional human-readable date range, e.g. Aug-Dec 2025. */
     dateLabel: z.string().optional(),
     description: z.string().optional(),
@@ -217,10 +219,18 @@ const miscellany = defineCollection({
     category: z.string().optional(),
     /** Location or host institution. */
     location: z.string().optional(),
-    /** Photo path in public/assets/img/. */
-    image: z.string().optional(),
-    /** Alt text for the image. */
-    imageAlt: z.string().optional(),
+    /** Ordered photos displayed in the item's image carousel. */
+    images: z
+      .array(
+        z.object({
+          /** Photo path in public/assets/img/. */
+          src: z.string(),
+          /** Accessible description of the photo. */
+          alt: z.string(),
+        }),
+      )
+      .optional()
+      .default([]),
     /** External links or local assets related to this item. */
     links: z
       .array(
@@ -231,7 +241,7 @@ const miscellany = defineCollection({
       )
       .optional()
       .default([]),
-    /** Sort order within the same year. */
+    /** Sort order within the same section and date. */
     importance: z.number().optional().default(999),
     /** Keep the file but hide it from the page. */
     hidden: z.boolean().optional().default(false),

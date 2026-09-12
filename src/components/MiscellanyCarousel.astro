@@ -1,0 +1,322 @@
+---
+import { withBase } from '@utils/base';
+
+interface CarouselImage {
+  src: string;
+  alt: string;
+}
+
+interface CarouselLabels {
+  gallery: string;
+  previous: string;
+  next: string;
+  goTo: string;
+}
+
+interface Props {
+  images: CarouselImage[];
+  title: string;
+  labels: CarouselLabels;
+  variant?: 'hobby' | 'timeline';
+}
+
+const { images, title, labels, variant = 'hobby' } = Astro.props;
+const hasMultipleImages = images.length > 1;
+---
+
+{
+  images.length > 0 && (
+    <div
+      class:list={['image-carousel', `image-carousel--${variant}`]}
+      data-image-carousel
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={`${labels.gallery}: ${title}`}
+    >
+      <div class="carousel-viewport" data-carousel-viewport>
+        <div class="carousel-track">
+          {images.map((image, index) => (
+            <figure
+              class="carousel-slide"
+              data-carousel-slide
+              aria-hidden={index === 0 ? 'false' : 'true'}
+            >
+              <img src={withBase(image.src)} alt={image.alt} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      {hasMultipleImages && (
+        <>
+          <span class="carousel-count" aria-live="polite" data-carousel-count>
+            1 / {images.length}
+          </span>
+
+          <button
+            class="carousel-button carousel-button--previous"
+            type="button"
+            aria-label={labels.previous}
+            data-carousel-previous
+          >
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button
+            class="carousel-button carousel-button--next"
+            type="button"
+            aria-label={labels.next}
+            data-carousel-next
+          >
+            <span aria-hidden="true">›</span>
+          </button>
+
+          <div class="carousel-dots">
+            {images.map((_, index) => (
+              <button
+                type="button"
+                aria-label={`${labels.goTo} ${index + 1}`}
+                aria-current={index === 0 ? 'true' : 'false'}
+                data-carousel-dot
+                data-index={index}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+<script>
+  function initMiscellanyCarousels() {
+    document.querySelectorAll<HTMLElement>('[data-image-carousel]').forEach((carousel) => {
+      if (carousel.dataset.carouselReady === 'true') return;
+      carousel.dataset.carouselReady = 'true';
+
+      const viewport = carousel.querySelector<HTMLElement>('[data-carousel-viewport]');
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+      const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+      const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]');
+      const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
+      const count = carousel.querySelector<HTMLElement>('[data-carousel-count]');
+
+      if (!viewport || slides.length < 2) return;
+
+      let current = 0;
+      let animationFrame = 0;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      const updateState = (index: number) => {
+        current = index;
+        slides.forEach((slide, slideIndex) => {
+          slide.setAttribute('aria-hidden', slideIndex === current ? 'false' : 'true');
+        });
+        dots.forEach((dot, dotIndex) => {
+          dot.setAttribute('aria-current', dotIndex === current ? 'true' : 'false');
+        });
+        if (count) count.textContent = `${current + 1} / ${slides.length}`;
+      };
+
+      const goTo = (index: number) => {
+        const target = (index + slides.length) % slides.length;
+        updateState(target);
+        viewport.scrollTo({
+          left: slides[target].offsetLeft,
+          behavior: reduceMotion.matches ? 'auto' : 'smooth',
+        });
+      };
+
+      previous?.addEventListener('click', () => goTo(current - 1));
+      next?.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => goTo(Number(dot.dataset.index ?? 0)));
+      });
+
+      viewport.addEventListener(
+        'scroll',
+        () => {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = requestAnimationFrame(() => {
+            const nearest = slides.reduce((best, slide, index) => {
+              const bestDistance = Math.abs(slides[best].offsetLeft - viewport.scrollLeft);
+              const distance = Math.abs(slide.offsetLeft - viewport.scrollLeft);
+              return distance < bestDistance ? index : best;
+            }, 0);
+            updateState(nearest);
+          });
+        },
+        { passive: true },
+      );
+    });
+  }
+
+  document.addEventListener('astro:page-load', initMiscellanyCarousels);
+</script>
+
+<style>
+  .image-carousel {
+    background: var(--global-card-bg-color);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .carousel-viewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .carousel-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track {
+    display: flex;
+  }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    margin: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .carousel-slide img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .image-carousel--hobby .carousel-slide img {
+    aspect-ratio: 16 / 10;
+    height: auto;
+  }
+
+  .image-carousel--timeline,
+  .image-carousel--timeline .carousel-viewport,
+  .image-carousel--timeline .carousel-track,
+  .image-carousel--timeline .carousel-slide {
+    height: 100%;
+  }
+
+  .image-carousel--timeline {
+    min-height: 240px;
+  }
+
+  .image-carousel--timeline .carousel-slide img {
+    height: 100%;
+    min-height: 240px;
+  }
+
+  .carousel-button {
+    align-items: center;
+    background: color-mix(in srgb, var(--global-bg-color) 88%, transparent);
+    border: 1px solid var(--global-divider-color);
+    border-radius: 50%;
+    color: var(--global-text-color);
+    cursor: pointer;
+    display: flex;
+    height: 2.2rem;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+    width: 2.2rem;
+    z-index: 2;
+  }
+
+  .carousel-button span {
+    font-size: 1.55rem;
+    line-height: 1;
+    margin-top: -0.1rem;
+  }
+
+  .carousel-button:hover {
+    background: var(--global-theme-color);
+    color: var(--global-hover-text-color);
+  }
+
+  .carousel-button--previous {
+    left: 0.75rem;
+  }
+
+  .carousel-button--next {
+    right: 0.75rem;
+  }
+
+  .carousel-count {
+    background: color-mix(in srgb, var(--global-bg-color) 88%, transparent);
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+    color: var(--global-text-color);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+    padding: 0.28rem 0.55rem;
+    position: absolute;
+    right: 0.7rem;
+    top: 0.7rem;
+    z-index: 2;
+  }
+
+  .carousel-dots {
+    align-items: center;
+    bottom: 0.65rem;
+    display: flex;
+    gap: 0.4rem;
+    left: 50%;
+    padding: 0.3rem;
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .carousel-dots button {
+    background: color-mix(in srgb, var(--global-bg-color) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--global-text-color) 30%, transparent);
+    border-radius: 999px;
+    cursor: pointer;
+    height: 0.48rem;
+    padding: 0;
+    transition:
+      background-color 160ms ease,
+      width 160ms ease;
+    width: 0.48rem;
+  }
+
+  .carousel-dots button[aria-current='true'] {
+    background: var(--global-theme-color);
+    border-color: var(--global-theme-color);
+    width: 1.25rem;
+  }
+
+  @media (max-width: 720px) {
+    .image-carousel--timeline,
+    .image-carousel--timeline .carousel-viewport,
+    .image-carousel--timeline .carousel-track,
+    .image-carousel--timeline .carousel-slide {
+      height: auto;
+      min-height: 0;
+    }
+
+    .image-carousel--timeline .carousel-slide img {
+      aspect-ratio: 16 / 10;
+      height: auto;
+      min-height: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-button,
+    .carousel-dots button {
+      transition: none;
+    }
+  }
+</style>

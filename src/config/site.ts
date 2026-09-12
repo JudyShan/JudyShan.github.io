@@ -126,10 +126,10 @@ export const site = {
       { label: 'about', href: '/' },
       { label: 'blog', href: '/blog/' },
       { label: 'publications', href: '/publications/' },
+      { label: 'miscellany', href: '/miscellany/' },
       // { label: 'projects', href: '/projects/' },
       // { label: 'repositories', href: '/repositories/' },
       // { label: 'cv', href: '/cv/' },
-      // { label: 'miscellany', href: '/miscellany/' },
       // {
       //   label: 'more',
       //   children: [
@@ -213,6 +213,45 @@ export const site = {
     wordsPerMinute: 200 as number,
     /** Message shown on the blog listing page when no posts exist. */
     emptyMessage: 'No posts yet. Check back soon!',
+  },
+
+  // ─── Miscellany ────────────────────────────────────────────────────────────
+
+  miscellany: {
+    /** Page title shown in the hero. */
+    title: 'Miscellany',
+    /** Small label above the page title. */
+    eyebrow: 'Beyond the papers',
+    /** Introductory copy shown below the page title. */
+    description:
+      'Research is only part of the journey. Here are a few places, pursuits, and moments that have shaped me along the way.',
+    /** Accessible label for the in-page section navigation. */
+    sectionNavLabel: 'Explore miscellany sections',
+    /** Accessible labels used by the image carousels. */
+    carouselLabels: {
+      gallery: 'Image gallery for',
+      previous: 'Previous image',
+      next: 'Next image',
+      goTo: 'Go to image',
+    },
+    /** Labels and descriptions for the two page sections. */
+    sections: {
+      hobbies: {
+        id: 'outside-academia',
+        number: '01',
+        title: 'Outside Academia',
+        description: 'Things that keep me curious, active, and grounded beyond mathematics.',
+        emptyMessage: 'More stories outside academia will be added soon.',
+      },
+      academic: {
+        id: 'academic-journey',
+        number: '02',
+        title: 'Academic Journey',
+        description:
+          'Places, people, and experiences that have shaped the way I think about research.',
+        emptyMessage: 'More milestones from my academic journey will be added soon.',
+      },
+    },
   },
 
   // ─── About page sections ──────────────────────────────────────────────────

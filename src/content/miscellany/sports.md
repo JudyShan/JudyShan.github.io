@@ -1,11 +1,13 @@
 ---
 title: 'Sports'
 date: 2026-05-04
+section: hobbies
 description: 'I love sports. Jogging / Badminton / Riding'
 category: hobby
 location: 'Shanghai, China'
-image: /assets/img/miscellany/sports.jpeg
-imageAlt: 'A ride along Suzhou River'
+images:
+  - src: /assets/img/miscellany/sports.jpeg
+    alt: 'A ride along Suzhou River'
+hidden: true
 ---
-
-My 5km PB is 28'24'', 10km PB is 59'40''.
+My 10km PB is 59'40''.
