@@ -1,5 +1,5 @@
 ---
-title: 'Travel Journal 01'
+title: 'Travel Journal 02'
 date: 2025-12
 section: hobbies
 description: 'I went to Japan for autumn foliage viewing.'
@@ -24,3 +24,6 @@ images:
     alt: 'Nara'
 hidden: false
 ---
+Our footsteps have traced a world of vibrant and captivating corners.
+
+Kyoto -> Nara, Uji -> Osaka

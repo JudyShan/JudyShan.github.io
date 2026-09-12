@@ -1,5 +1,5 @@
 ---
-title: 'Travel Journal 02'
+title: 'Travel Journal 03'
 date: 2026-8
 section: hobbies
 description: 'I spent great days in Switzerland.'

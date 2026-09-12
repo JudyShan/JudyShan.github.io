@@ -13,5 +13,7 @@ links:
   - label: Course homepage
     url: https://people.eecs.berkeley.edu/~demmel/ma221_Fall24/
 ---
-
 During the course by dear Prof. Demmel, I started my first project.
+
+I began to wander through fascinating research and the homepages of inspiring minds
+(the most relaxing part of doing research).
