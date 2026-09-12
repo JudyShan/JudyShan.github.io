@@ -180,6 +180,50 @@ Here, $\mathcal{R}(M)$ denotes the range of $M$.
 
 </Statement>
 
+<Statement type="remark" title="Weighted TLS and the LS limit" collapsible>
+
+A useful interpolation between TLS and LS is obtained by assigning a weighting parameter
+$\gamma>0$ to perturbations in the right-hand side:
+
+$$
+\min_{\Delta A,\Delta b}
+\left\|
+\begin{bmatrix}
+\Delta A & \gamma\Delta b
+\end{bmatrix}
+\right\|_{\mathrm F}
+\quad
+\text{subject to}
+\quad
+(A+\Delta A)x=b+\Delta b.
+$$
+
+For a fixed $x$, the smallest weighted perturbation has norm
+
+$$
+\eta_\gamma(x)
+=
+\frac{\gamma\|Ax-b\|_2}{\sqrt{1+\gamma^2\|x\|_2^2}}.
+$$
+
+Accordingly, the structural normal equation in (2.1a) becomes
+
+$$
+\left(A+\gamma^2 bx^\top\right)^\top(Ax-b)=0.
+$$
+
+Since minimizing $\eta_\gamma(x)$ is equivalent to minimizing $\eta_\gamma(x)/\gamma$, letting
+$\gamma\to0$ recovers the LS objective $\|Ax-b\|_2$. At the same time, the equation above reduces
+naturally to the LS normal equation
+
+$$
+A^\top(Ax-b)=0.
+$$
+
+Thus, weighted TLS provides a continuous bridge from ordinary TLS ($\gamma=1$) to LS in the limit $\gamma\to0$.
+
+</Statement>
+
 I shall present only the key parts of the proof that shed light on the structure of TLS. The
 extension to the multidimensional case is straightforward.
 
@@ -283,9 +327,11 @@ the best kind of solution one can generally expect in finite precision.
 The result above shows that information from LS can be exploited under certain conditions. Moreover,
 the ordinary condition number, defined as the ratio of the largest to the smallest singular value of
 a matrix, does not fully characterize the difficulty of a TLS problem. The spectral gap, or the
-[effective condition number](https://link.springer.com/article/10.1007/BF01400115), is more
-informative. Specifically, a small LS residual indicates that the LS and TLS solutions are close,
-suggesting that a TLS model may be unnecessary for a relatively consistent system.
+[effective condition number](https://link.springer.com/article/10.1007/BF01400115), is more informative.
+The following proposition shows that a TLS model may be unnecessary for a relatively consistent
+system: once the conditioning of $A$ is taken into account, a small LS residual keeps the critical
+singular-value ratio in Theorem 1.2 away from one.
+Consequently, the LS and TLS solutions can be expected to remain close.
 
 <Statement
   type="proposition"
@@ -401,7 +447,7 @@ $$
 This already avoids an $m\times m$ eigendecomposition, but forming a full factorization of
 $\widetilde A$ may still be expensive when the number of observations is very large.
 Randomized sketching reduces the cost further. Let $S\in\mathbb{R}^{s\times m}$ be a
-[subspace embedding](https://ar5iv.labs.arxiv.org/html/2002.01387) for the columns of $[A,b]$ with
+[subspace embedding](https://arxiv.org/abs/2002.01387) for the columns of $[A,b]$ with
 distortion $\varepsilon\in(0,1)$, and define
 
 $$
@@ -464,7 +510,7 @@ exact $m\times m$ eigenvalue formula.
 Thus, TLS backward error can serve both as a mathematical tool for understanding stability
 and as an inexpensive stopping criterion or accuracy certificate within an algorithm.
 
-## 3. More than just backward error
+## 3. Interpretation of backward error
 
 The previous section treats backward error as a number: $\tau(x)$ tells us how far a computed
 iterate is from satisfying the defining structure of TLS. The _optimal perturbation_ contains more

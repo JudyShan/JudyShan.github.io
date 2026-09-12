@@ -18,12 +18,17 @@ interface Props {
   number?: number | string;
   /** Optional descriptive title displayed in parentheses. */
   title?: string;
+  /** Allow the statement body to be expanded and collapsed. Proofs are always collapsible. */
+  collapsible?: boolean;
+  /** Show a collapsible statement expanded on initial page load. */
+  open?: boolean;
 }
 
-const { type, number, title } = Astro.props;
+const { type, number, title, collapsible = false, open = false } = Astro.props;
 const label = type.charAt(0).toUpperCase() + type.slice(1);
 const headingId = `statement-${Math.random().toString(36).slice(2, 9)}`;
 const styled = site.features.statements;
+const isCollapsible = type === 'proof' || collapsible;
 ---
 
 <section
@@ -32,8 +37,8 @@ const styled = site.features.statements;
   aria-labelledby={headingId}
 >
   {
-    type === 'proof' ? (
-      <details class="proof-details">
+    isCollapsible ? (
+      <details class="statement-details" open={open}>
         <summary class="math-statement-heading" id={headingId}>
           <span class="math-statement-label">
             {label}
@@ -95,7 +100,7 @@ const styled = site.features.statements;
     line-height: 1.4;
   }
 
-  .proof-details > summary {
+  .statement-details > summary {
     display: flex;
     align-items: center;
     gap: 0.15rem;
@@ -105,11 +110,11 @@ const styled = site.features.statements;
     user-select: none;
   }
 
-  .proof-details > summary::-webkit-details-marker {
+  .statement-details > summary::-webkit-details-marker {
     display: none;
   }
 
-  .proof-details > summary::after {
+  .statement-details > summary::after {
     content: '';
     width: 0.55rem;
     height: 0.55rem;
@@ -120,15 +125,15 @@ const styled = site.features.statements;
     transition: transform 0.18s ease;
   }
 
-  .proof-details[open] > summary {
+  .statement-details[open] > summary {
     margin-bottom: 0.65rem;
   }
 
-  .proof-details[open] > summary::after {
+  .statement-details[open] > summary::after {
     transform: rotate(225deg);
   }
 
-  .proof-details > summary:focus-visible {
+  .statement-details > summary:focus-visible {
     border-radius: 0.2rem;
     outline: 2px solid var(--statement-accent);
     outline-offset: 0.25rem;

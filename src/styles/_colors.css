@@ -123,8 +123,8 @@ html[data-theme='dark'] {
 :root {
   --navbar-height: 57px;
   /* Desktop canvas, with a separate readable line length for articles. */
-  --page-max-width: 1080px;
-  --article-max-width: 800px;
+  --page-max-width: 1100px;
+  --article-max-width: 840px;
 }
 
 /* ─── Utility classes ────────────────────────────────────────────────────── */

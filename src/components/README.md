@@ -128,6 +128,20 @@ is `true` and `site.newsletter.endpoint` is configured.
 
 No props.
 
+### `Statement.astro`
+
+Renders theorem, lemma, proposition, corollary, definition, remark, fact, and proof blocks for
+mathematical writing. Proofs are collapsible by default; any other statement can opt into the same
+behavior.
+
+**Props:**
+
+- `type` — Mathematical statement type.
+- `number?: number | string` — Optional statement number.
+- `title?: string` — Optional descriptive title.
+- `collapsible?: boolean` — Make a non-proof statement expandable and collapsible.
+- `open?: boolean` — Expand a collapsible statement initially.
+
 ---
 
 ### `ReadingProgress.astro`
