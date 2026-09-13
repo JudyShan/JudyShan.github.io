@@ -22,4 +22,4 @@ hidden: false
 ---
 This trip sparked my newfound love for languages.
 
-Tokyo -> Hakone -> Izu -> Fuji Mountain -> Shibuya
+Tokyo -> Hakone -> Izu -> Fuji Mountain -> Shibuya.

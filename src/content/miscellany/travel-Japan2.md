@@ -26,4 +26,4 @@ hidden: false
 ---
 Our footsteps have traced a world of vibrant and captivating corners.
 
-Kyoto -> Nara, Uji -> Osaka
+Kyoto -> Nara -> Uji -> Osaka.

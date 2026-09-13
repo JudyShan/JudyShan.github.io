@@ -26,4 +26,4 @@ images:
     alt: 'Murten/Morat'
 hidden: false
 ---
-We followed the GoldenPass Line route: Zurich (Oerlikon) -> Luzern, Weggis, Rigi, Arth-Goldau -> Interlaken, Brienze, Jungfrau, Lauterbrunnen -> Montreux, Lavaux -> Zermatt -> Murten/Morat.
+We followed the GoldenPass Line route: Zurich (Oerlikon) -> Luzern, Weggis, Rigi, Arth-Goldau -> Interlaken, Brienze, Jungfrau, Lauterbrunnen -> Montreux, Lavaux -> Zermatt -> Murten -> Bern.
